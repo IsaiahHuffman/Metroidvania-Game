@@ -13,6 +13,7 @@ const wall_jump_pushback = 300
 
 const wall_slide_gravity = 100
 var is_wall_sliding = false
+var onFloor = true
 
 func _physics_process(delta):
 	var input_dir: Vector2 = input()
@@ -22,8 +23,19 @@ func _physics_process(delta):
 	else:
 		add_friction()
 	player_movement()
+	yapper()
 	jump()
 	wall_slide(delta)
+
+
+func yapper():
+	if is_on_wall():
+		var wall_normal = get_wall_normal()
+		if wall_normal.x > 0:
+			print("Character is hugging a wall to the left")
+		elif wall_normal.x < 0:
+			print("Character is hugging a wall to the right")
+
 
 func player_movement():
 	move_and_slide()
@@ -41,17 +53,18 @@ func input() -> Vector2:
 	
 	input_dir.x = Input.get_axis("ui_left", "ui_right")
 	input_dir = input_dir.normalized()
-	print(input_dir)
 	return input_dir
 	
 func jump():
 	velocity.y += gravity
+	
 	
 	#If hugging the left wall
 	if is_on_wall() and Input.is_action_pressed("ui_select"):
 		if Input.is_action_pressed("ui_left"):
 			velocity.y = jump_power
 			velocity.x = wall_jump_pushback
+			
 		
 		#if hugging the right wall
 		elif Input.is_action_pressed("ui_right"):
