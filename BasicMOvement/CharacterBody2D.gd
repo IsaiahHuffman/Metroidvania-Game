@@ -9,7 +9,7 @@ const friction = 70
 
 const gravity = 120
 
-const wall_jump_pushback = 100
+const wall_jump_pushback = 300
 
 const wall_slide_gravity = 100
 var is_wall_sliding = false
@@ -28,8 +28,11 @@ func _physics_process(delta):
 func player_movement():
 	move_and_slide()
 
+#Acceleration function so you don't turn exactly on a dime
 func accelerate(direction):
 	velocity = velocity.move_toward(speed * direction, acc)
+	
+#Little bit of friction so you don't turn on a dime
 func add_friction():
 	velocity = velocity.move_toward(Vector2.ZERO, friction)
 
@@ -43,15 +46,23 @@ func input() -> Vector2:
 	
 func jump():
 	velocity.y += gravity
-	if Input.is_action_just_pressed("ui_select"):
-		if is_on_floor():
-			velocity.y = jump_power
-		if is_on_wall() and Input.is_action_pressed("ui_right"):
-			velocity.y = jump_power
-			velocity.x = -wall_jump_pushback
-		if is_on_wall() and Input.is_action_pressed("ui_left"):
+	
+	#If hugging the left wall
+	if is_on_wall() and Input.is_action_pressed("ui_select"):
+		if Input.is_action_pressed("ui_left"):
 			velocity.y = jump_power
 			velocity.x = wall_jump_pushback
+		
+		#if hugging the right wall
+		elif Input.is_action_pressed("ui_right"):
+			velocity.y = jump_power
+			velocity.x = -wall_jump_pushback
+			
+	#Basic Jump
+	elif is_on_floor() and Input.is_action_pressed("ui_select"):
+		velocity.y = jump_power
+
+	
 
 func wall_slide(delta):
 	if is_on_wall() and !is_on_floor():
