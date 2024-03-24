@@ -14,6 +14,7 @@ const wall_jump_pushback = 300
 const wall_slide_gravity = 100
 var is_wall_sliding = false
 var onFloor = true
+var whichWallAreYouOn = "none"
 
 func _physics_process(delta):
 	var input_dir: Vector2 = input()
@@ -22,6 +23,7 @@ func _physics_process(delta):
 		accelerate(input_dir)
 	else:
 		add_friction()
+		
 	player_movement()
 	yapper()
 	jump()
@@ -56,30 +58,37 @@ func input() -> Vector2:
 	return input_dir
 	
 func jump():
+	#Make the character fall due to gravity
 	velocity.y += gravity
 	
 	
-	#If hugging the left wall
-	if is_on_wall() and Input.is_action_pressed("ui_select"):
+	#If hugging the left wall, push off to the right
+	if is_on_wall() and Input.is_action_pressed("ui_select") and !is_on_floor():
 		if Input.is_action_pressed("ui_left"):
 			velocity.y = jump_power
 			velocity.x = wall_jump_pushback
+			whichWallAreYouOn = "left"
+			
 			
 		
-		#if hugging the right wall
+		#if hugging the right wall, push off to the left
 		elif Input.is_action_pressed("ui_right"):
 			velocity.y = jump_power
 			velocity.x = -wall_jump_pushback
+			whichWallAreYouOn = "right"
 			
 	#Basic Jump
 	elif is_on_floor() and Input.is_action_pressed("ui_select"):
 		velocity.y = jump_power
+		whichWallAreYouOn = "none"
 
 	
 
 func wall_slide(delta):
 	if is_on_wall() and !is_on_floor():
-		if Input.is_action_pressed("ui_left") or Input.is_action_pressed("ui_right"):
+		if Input.is_action_pressed("ui_left") and whichWallAreYouOn != "left":
+			is_wall_sliding = true
+		elif Input.is_action_pressed("ui_right") and whichWallAreYouOn != "right":
 			is_wall_sliding = true
 		else:
 			is_wall_sliding = false
