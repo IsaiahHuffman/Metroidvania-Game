@@ -3,7 +3,7 @@ extends CharacterBody2D
 var current_dir = "none"
 var enemy_in_range = false
 var enemy_attack_cool_down = true
-var health = 200
+var health = 100
 var alive = true
 var attack_inprogress = false
 
@@ -17,6 +17,7 @@ func _physics_process(delta):
 	player_movement(delta)
 	enemy_attack()
 	close_attack()
+	update_health()
 	if health <= 0:
 		alive = false
 		health = 0
@@ -81,11 +82,10 @@ func _on_player_hitbox_body_exited(body):
 
 func enemy_attack():
 	if enemy_in_range and enemy_attack_cool_down == true:
-		health = health - 20
+		health = health - 5
 		enemy_attack_cool_down = false
 		$Timer.start()
 		print(health)	 
-
 
 
 
@@ -113,3 +113,23 @@ func _on_attack_timer_timeout():
 	$attack_timer.stop()
 	Global.player_current_attack =false
 	attack_inprogress = false
+
+func update_health():
+	var healthbar = $healthbar
+	healthbar.value = health
+	if health >= 100:
+		healthbar.visible = false
+	else:
+		healthbar.visible = true
+
+
+
+
+func _on_healthgen_timeout():
+	
+	if health < 100 or health > 0:
+		$healthgen.start()
+		health = health +20
+		if health >= 100:
+			health = 100
+		
