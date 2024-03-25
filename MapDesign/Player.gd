@@ -59,7 +59,7 @@ func input() -> Vector2:
 	return input_dir
 	
 func jump():
-	#Make the character fall due to gravity, duh
+	#Make the character fall due to gravity,
 	velocity.y += gravity
 	
 	
