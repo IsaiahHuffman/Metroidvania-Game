@@ -9,6 +9,8 @@ const gravity = 120
 const wall_jump_pushback = 300
 const wall_slide_gravity = 100
 
+var isJumping = false
+
 #Wall sliding variable
 var is_wall_sliding = false
 
@@ -22,6 +24,9 @@ var jumpCooldown = 0.2
 func _physics_process(delta):
 	var input_dir: Vector2 = input()
 	
+	if !is_on_floor() and !is_on_wall():
+		$AnimationPlayer.play("jumpBetweenWalls")
+	
 	if input_dir != Vector2.ZERO:
 		accelerate(input_dir)
 		
@@ -31,16 +36,22 @@ func _physics_process(delta):
 			get_node("AnimatedSprite2D").flip_h = true
 		elif direction == 1:
 			get_node("AnimatedSprite2D").flip_h = false
-		$AnimationPlayer.play("Walk")
 		
-		
+		#Only play walking animation if we are on the ground and not in midjump
+		if is_on_floor() and isJumping == false:
+			$AnimationPlayer.play("Walk")
 		
 		
 		
 		
 	else:
 		add_friction()
-		$AnimationPlayer.play("Idle")
+		
+		#Play idle animation ONLY if we are standing still and not midjump
+		if is_on_floor() and isJumping == false:
+			$AnimationPlayer.play("Idle")
+		
+		
 		
 	
 	#calls move_and_slide, we really don't need this function but w.e
@@ -111,11 +122,13 @@ func jump():
 		
 		#So that the player doesn't immediately bounce off the wall when they faceplant into wall
 		jumpCooldown = 0.2
-		
 		$AnimationPlayer.play("Jump")
 		print("jumped allegedly")
+		isJumping = true
 		
-		
+	#If we aren't actively in the process of jumping, allow other animations to play
+	else:
+		isJumping = false
 
 #Allows player to slowly fall when hanging onto a wall
 func wall_slide(delta):
@@ -136,6 +149,8 @@ func wall_slide(delta):
 	if is_wall_sliding:
 		velocity.y += (wall_slide_gravity * delta)
 		velocity.y = min(velocity.y, wall_slide_gravity)
+		
+		$AnimationPlayer.play("wallSliding")
 		
 		
 		
