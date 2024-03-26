@@ -3,18 +3,17 @@ extends CharacterBody2D
 
 const speed = 550.0
 const jump_power = -1500.0
-
 const acc = 50
 const friction = 70
-
 const gravity = 120
-
 const wall_jump_pushback = 300
-
 const wall_slide_gravity = 100
 var is_wall_sliding = false
 var onFloor = true
 var whichWallAreYouOn = "none"
+
+var timerVar = 0.5
+
 
 func _physics_process(delta):
 	var input_dir: Vector2 = input()
@@ -26,18 +25,31 @@ func _physics_process(delta):
 		$AnimationPlayer.play("Idle")
 		
 	player_movement()
-	yapper()
-	jump()
+	#yapper()
+	jump(delta)
 	wall_slide(delta)
 
+func stupidProcess(delta, pressJump):
+	
+	
+	#start the timer if the character has jumped
+	if pressJump == true:
+		timerVar -= delta
+
+	if timerVar <= 0:
+		print("hello")
+		
+		if pressJump == true:
+			timerVar = 0.5
+
 #you can delete this, but I had it for debugging to see if the engine knew what wall the player is on
-func yapper():
-	if is_on_wall():
-		var wall_normal = get_wall_normal()
-		if wall_normal.x > 0:
-			print("Character is hugging a wall to the left")
-		elif wall_normal.x < 0:
-			print("Character is hugging a wall to the right")
+#func yapper():
+	#if is_on_wall():
+		#var wall_normal = get_wall_normal()
+		#if wall_normal.x > 0:
+			#print("Character is hugging a wall to the left")
+		#elif wall_normal.x < 0:
+			#print("Character is hugging a wall to the right")
 
 
 func player_movement():
@@ -58,14 +70,18 @@ func input() -> Vector2:
 	input_dir = input_dir.normalized()
 	return input_dir
 	
-func jump():
+func jump(delta):
+	
+	var pressJump = false
+	
 	#Make the character fall due to gravity,
 	velocity.y += gravity
 	
 	
+	
 	#If hugging the left wall, push off to the right
 	if is_on_wall() and Input.is_action_pressed("ui_select") and !is_on_floor():
-		if Input.is_action_pressed("ui_left"):
+		if Input.is_action_pressed("ui_left") and timerVar == 0:
 			velocity.y = jump_power
 			velocity.x = wall_jump_pushback
 			
@@ -75,7 +91,7 @@ func jump():
 			
 		
 		#if hugging the right wall, push off to the left
-		elif Input.is_action_pressed("ui_right"):
+		elif Input.is_action_pressed("ui_right") and timerVar == 0:
 			velocity.y = jump_power
 			velocity.x = -wall_jump_pushback
 			
@@ -88,8 +104,10 @@ func jump():
 		
 		#remind engine to reset the wall that the player is on
 		whichWallAreYouOn = "none"
-
+		pressJump = true
 	
+	stupidProcess(delta, pressJump)
+
 #Allows player to slowly fall when hanging onto a wall
 func wall_slide(delta):
 	#If you are on the wall
@@ -106,6 +124,7 @@ func wall_slide(delta):
 	if is_wall_sliding:
 		velocity.y += (wall_slide_gravity * delta)
 		velocity.y = min(velocity.y, wall_slide_gravity)
+		
 		
 	
 		
