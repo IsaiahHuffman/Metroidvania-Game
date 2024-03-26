@@ -24,11 +24,24 @@ func _physics_process(delta):
 	
 	if input_dir != Vector2.ZERO:
 		accelerate(input_dir)
+		
+		var direction = Input.get_axis("ui_left", "ui_right")
+		if direction == -1:
+			get_node("AnimatedSprite2D").flip_h = true
+		elif direction == 1:
+			get_node("AnimatedSprite2D").flip_h = false
 		$AnimationPlayer.play("Walk")
+		
+		
+		
+		
+		
+		
 	else:
 		add_friction()
 		$AnimationPlayer.play("Idle")
 		
+	
 	#calls move_and_slide, we really don't need this function but w.e
 	player_movement()
 	
