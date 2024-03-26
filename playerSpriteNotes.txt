@@ -1,0 +1,8 @@
+1- idle 
+2- wall sprite 
+3-8 magic/ long range attk 
+9-12 short range attk 
+13-15 jumping 
+16-19 death 
+20- hurt 
+21-25 walking
