@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://csi5ww0mghmqk"]
+[gd_scene load_steps=39 format=3 uid="uid://csi5ww0mghmqk"]
 
 [ext_resource type="Script" path="res://Player.gd" id="1_m3uuv"]
 [ext_resource type="Texture2D" uid="uid://vs0kd2t7neg2" path="res://RubySpriteSheet/player_all_sheet.png" id="2_i725a"]
@@ -56,9 +56,26 @@ tracks/0/keys = {
 "values": [20, 21, 22, 23, 24]
 }
 
+[sub_resource type="Animation" id="Animation_sq2fp"]
+resource_name = "Jump"
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [12, 13, 14]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_klr5b"]
 _data = {
 "Idle": SubResource("Animation_b0wek"),
+"Jump": SubResource("Animation_sq2fp"),
 "RESET": SubResource("Animation_r57vo"),
 "Walk": SubResource("Animation_g8tp5")
 }
