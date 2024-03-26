@@ -24,6 +24,7 @@ func _physics_process(delta):
 	
 	if input_dir != Vector2.ZERO:
 		accelerate(input_dir)
+		$AnimationPlayer.play("Walk")
 	else:
 		add_friction()
 		$AnimationPlayer.play("Idle")
@@ -115,7 +116,6 @@ func wall_slide(delta):
 		velocity.y = min(velocity.y, wall_slide_gravity)
 		
 		
-	
 		
 
 
