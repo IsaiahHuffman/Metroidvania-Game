@@ -1,4 +1,6 @@
 extends CharacterBody2D
+signal knockback
+#extends KineticBody2D 
 @export var speed: int = 100
 var current_dir = "none"
 var enemy_in_range = false
@@ -6,6 +8,9 @@ var enemy_attack_cool_down = true
 var health = 100
 var alive = true
 var attack_inprogress = false
+var dir = 1
+var motion = Vector2()
+var knockback_wait = 10
 
 func myplayer():
 	pass
@@ -26,11 +31,13 @@ func _physics_process(delta):
 func player_movement(delta):
 	if Input.is_action_pressed("ui_right"):
 		current_dir = "right"
+		dir = 1
 		play_anim(1)
 		velocity.x = speed
 		velocity.y = 0
 	elif Input.is_action_pressed("ui_left"):
 		current_dir = "left"
+		dir = -1
 		play_anim(1)
 		velocity.x = -speed
 		velocity.y = 0
@@ -48,7 +55,6 @@ func player_movement(delta):
 		play_anim(0)
 		velocity.x = 0
 		velocity.y = 0
-	
 	move_and_slide()
 	
 func play_anim(movement):
@@ -105,6 +111,9 @@ func close_attack():
 			$AnimatedSprite2D.flip_h = true
 			$AnimatedSprite2D.play("attack")
 			$attack_timer.start()
+		for body in $PlayerHitbox.get_overlapping_bodies():
+			if body.has_method("enemyslime"):
+				emit_signal("knockback")
 
 
 

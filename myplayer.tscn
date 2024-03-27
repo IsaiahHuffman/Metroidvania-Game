@@ -1,0 +1,140 @@
+[gd_scene load_steps=16 format=3 uid="uid://c5l273kf7pmdx"]
+
+[ext_resource type="Script" path="res://player/hero.gd" id="1_l4bjd"]
+[ext_resource type="Texture2D" uid="uid://dn0f2caip8v8f" path="res://NinjaAdventure/Actor/player_all_sheet.png" id="2_ej6qd"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m1c2j"]
+atlas = ExtResource("2_ej6qd")
+region = Rect2(512, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ddrkt"]
+atlas = ExtResource("2_ej6qd")
+region = Rect2(576, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4v80s"]
+atlas = ExtResource("2_ej6qd")
+region = Rect2(640, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_icp3a"]
+atlas = ExtResource("2_ej6qd")
+region = Rect2(704, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_erktk"]
+atlas = ExtResource("2_ej6qd")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a2hwo"]
+atlas = ExtResource("2_ej6qd")
+region = Rect2(1280, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4wk8o"]
+atlas = ExtResource("2_ej6qd")
+region = Rect2(1344, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qdkb5"]
+atlas = ExtResource("2_ej6qd")
+region = Rect2(1408, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x4xgp"]
+atlas = ExtResource("2_ej6qd")
+region = Rect2(1472, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dhoe0"]
+atlas = ExtResource("2_ej6qd")
+region = Rect2(1536, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_t2mfw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m1c2j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ddrkt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4v80s")
+}, {
+"duration": 0.7,
+"texture": SubResource("AtlasTexture_icp3a")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_erktk")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a2hwo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4wk8o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qdkb5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x4xgp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dhoe0")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_616xl"]
+radius = 3.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yarwd"]
+radius = 14.0
+
+[node name="hero" type="CharacterBody2D"]
+collision_layer = 3
+script = ExtResource("1_l4bjd")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-1, -18)
+sprite_frames = SubResource("SpriteFrames_t2mfw")
+animation = &"walk"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_616xl")
+
+[node name="PlayerHitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerHitbox"]
+position = Vector2(-1, -12)
+shape = SubResource("CircleShape2D_yarwd")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.578
+
+[node name="attack_timer" type="Timer" parent="."]
+wait_time = 0.334
+
+[node name="healthbar" type="ProgressBar" parent="."]
+modulate = Color(0.121569, 0.760784, 0.113725, 1)
+offset_left = -15.0
+offset_top = 4.0
+offset_right = 135.0
+offset_bottom = 31.0
+scale = Vector2(0.2, 0.2)
+
+[node name="healthgen" type="Timer" parent="."]
+wait_time = 6.827
+autostart = true
+
+[connection signal="body_entered" from="PlayerHitbox" to="." method="_on_player_hitbox_body_entered"]
+[connection signal="body_exited" from="PlayerHitbox" to="." method="_on_player_hitbox_body_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="attack_timer" to="." method="_on_attack_timer_timeout"]
+[connection signal="timeout" from="healthgen" to="." method="_on_healthgen_timeout"]
