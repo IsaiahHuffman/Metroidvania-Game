@@ -8,7 +8,11 @@ const friction = 70
 const gravity = 120
 const wall_jump_pushback = 300
 const wall_slide_gravity = 100
+const coyoteVelocity = 130 #for coyote jump/time
 
+var canDoubleJump = true
+
+#So that the jump animation doesn't get clobbered by other animations, e.g. walk and idle
 var isJumping = false
 
 #Wall sliding variable
@@ -20,13 +24,14 @@ var whichWallAreYouOn = "none"
 #So the player doesn't bounce off of walls when they faceplant into them
 var jumpCooldown = 0.2
 
-
+#Main gameplay loop
 func _physics_process(delta):
 	var input_dir: Vector2 = input()
-	
+	#if in the middle of the air (jumping between walls), play the animation
 	if !is_on_floor() and !is_on_wall():
 		$AnimationPlayer.play("jumpBetweenWalls")
 	
+	#If we move in any direction
 	if input_dir != Vector2.ZERO:
 		accelerate(input_dir)
 		
@@ -60,6 +65,7 @@ func _physics_process(delta):
 	#sees if the player is jumping
 	jump()
 	
+
 	#sees if the player is sliding down a wall
 	wall_slide(delta)
 	
@@ -94,8 +100,10 @@ func jump():
 	#Make the character fall due to gravity,
 	velocity.y += gravity
 	
+	
 	#If you are trying to jump off the wall
 	if is_on_wall() and Input.is_action_pressed("ui_select") and !is_on_floor():
+		canDoubleJump = true
 		
 		#If hugging the left wall, push off to the right
 		if Input.is_action_pressed("ui_left") and jumpCooldown == 0 and whichWallAreYouOn != "left":
@@ -114,7 +122,7 @@ func jump():
 			whichWallAreYouOn = "right"
 			
 	#Basic Jump from the floor
-	elif is_on_floor() and Input.is_action_pressed("ui_select"):
+	elif Input.is_action_pressed("ui_select") and is_on_floor():
 		velocity.y = jump_power
 		
 		#remind engine to reset the wall that the player is on
@@ -123,22 +131,29 @@ func jump():
 		#So that the player doesn't immediately bounce off the wall when they faceplant into wall
 		jumpCooldown = 0.2
 		$AnimationPlayer.play("Jump")
-		print("jumped allegedly")
 		isJumping = true
+		canDoubleJump = true
+		
+	#double jump functionality
+	elif Input.is_action_just_pressed("ui_select") and !is_on_floor() and !is_on_wall() and canDoubleJump:
+		velocity.y = jump_power
+		$AnimationPlayer.play("Jump")
+		isJumping = true
+		canDoubleJump = false
 		
 	#If we aren't actively in the process of jumping, allow other animations to play
 	else:
 		isJumping = false
+
+
 
 #Allows player to slowly fall when hanging onto a wall
 func wall_slide(delta):
 	#If you are on the wall
 	if is_on_wall() and !is_on_floor():
 		
-		#print("received: ", whichWallAreYouOn)
 		if Input.is_action_pressed("ui_left") and whichWallAreYouOn != "left":
 			is_wall_sliding = true
-			print("Is on left wall, received: ", whichWallAreYouOn)
 		elif Input.is_action_pressed("ui_right") and whichWallAreYouOn != "right":
 			is_wall_sliding = true
 		else:
@@ -151,9 +166,7 @@ func wall_slide(delta):
 		velocity.y = min(velocity.y, wall_slide_gravity)
 		
 		$AnimationPlayer.play("wallSliding")
-		
-		
-		
+
 
 
 
