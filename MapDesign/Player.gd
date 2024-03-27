@@ -10,6 +10,13 @@ const wall_jump_pushback = 300
 const wall_slide_gravity = 100
 const coyoteVelocity = 130 #for coyote jump/time
 
+#Dashing variables
+var canDash = true
+var dashing = false
+var lastFacedDirection = "none"
+var direction = 1
+
+#To enable doubleJump mechanics
 var canDoubleJump = true
 
 #So that the jump animation doesn't get clobbered by other animations, e.g. walk and idle
@@ -27,16 +34,18 @@ var jumpCooldown = 0.2
 #Main gameplay loop
 func _physics_process(delta):
 	var input_dir: Vector2 = input()
+	
+	
 	#if in the middle of the air (jumping between walls), play the animation
 	if !is_on_floor() and !is_on_wall():
 		$AnimationPlayer.play("jumpBetweenWalls")
 	
-	#If we move in any direction
+	#If we move left or right
 	if input_dir != Vector2.ZERO:
 		accelerate(input_dir)
 		
 		#Change character direction when they run different directions
-		var direction = Input.get_axis("ui_left", "ui_right")
+		direction = Input.get_axis("ui_left", "ui_right")
 		if direction == -1:
 			get_node("AnimatedSprite2D").flip_h = true
 		elif direction == 1:
@@ -46,9 +55,7 @@ func _physics_process(delta):
 		if is_on_floor() and isJumping == false:
 			$AnimationPlayer.play("Walk")
 		
-		
-		
-		
+	#If we're not inputting left or right movement
 	else:
 		add_friction()
 		
@@ -64,7 +71,8 @@ func _physics_process(delta):
 	
 	#sees if the player is jumping
 	jump()
-	
+	print(input_dir)
+	dash(direction)
 
 	#sees if the player is sliding down a wall
 	wall_slide(delta)
@@ -74,8 +82,7 @@ func _physics_process(delta):
 	if jumpCooldown <= 0:
 		jumpCooldown = 0
 
-#I really don't understand move and slide, but...
-#it needs to be called for the game to process the physics
+#All this does is call move_and_slide, which voodoo magic's the game physics
 func player_movement():
 	move_and_slide()
 
@@ -87,6 +94,7 @@ func accelerate(direction):
 func add_friction():
 	velocity = velocity.move_toward(Vector2.ZERO, friction)
 
+#Determine player input
 func input() -> Vector2:
 	var input_dir = Vector2.ZERO
 	
@@ -94,12 +102,11 @@ func input() -> Vector2:
 	input_dir = input_dir.normalized()
 	return input_dir
 	
-	
+#All jump mechanics handled in this function
 func jump():
 	
 	#Make the character fall due to gravity,
 	velocity.y += gravity
-	
 	
 	#If you are trying to jump off the wall
 	if is_on_wall() and Input.is_action_pressed("ui_select") and !is_on_floor():
@@ -112,8 +119,6 @@ func jump():
 			#establish that we are on left wall so that we can't jump on left wall to climb upwards
 			whichWallAreYouOn = "left"
 			
-			
-		
 		#if hugging the right wall, push off to the left
 		elif Input.is_action_pressed("ui_right") and jumpCooldown == 0 and whichWallAreYouOn != "right":
 			velocity.y = jump_power
@@ -145,6 +150,29 @@ func jump():
 	else:
 		isJumping = false
 
+#Dash mechanic, at the moment purely for momentum
+#Possible damage application once we get further into development?
+func dash(direction):
+	
+	#Just declaring it
+	var dashDirection = Vector2.ZERO
+	
+	#Pull the direction the player is facing from physics loop, dash in that direction
+	if direction == -1:
+		dashDirection = Vector2(-1,0)
+	elif direction == 1:
+		dashDirection = Vector2(1,0)
+		
+	#League of legends has f on flash, I felt inspired to make it the same
+	#Actual keybind up for debate
+	if Input.is_action_just_pressed("f") and canDash:
+		# could add logic for left or right dash animation
+		velocity = dashDirection.normalized()*1500
+		canDash = false
+		dashing = true
+		await get_tree().create_timer(1.0).timeout
+		canDash = true
+		dashing = false
 
 
 #Allows player to slowly fall when hanging onto a wall
@@ -152,6 +180,7 @@ func wall_slide(delta):
 	#If you are on the wall
 	if is_on_wall() and !is_on_floor():
 		
+		#Determine if player can legally wall slide
 		if Input.is_action_pressed("ui_left") and whichWallAreYouOn != "left":
 			is_wall_sliding = true
 		elif Input.is_action_pressed("ui_right") and whichWallAreYouOn != "right":
@@ -161,10 +190,10 @@ func wall_slide(delta):
 	else:
 		is_wall_sliding = false
 	
+	#Actual wall sliding mechanic
 	if is_wall_sliding:
 		velocity.y += (wall_slide_gravity * delta)
 		velocity.y = min(velocity.y, wall_slide_gravity)
-		
 		$AnimationPlayer.play("wallSliding")
 
 
