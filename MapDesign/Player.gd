@@ -1,14 +1,19 @@
 extends CharacterBody2D
 
 
-const speed = 550.0
+const speed = 400.0
 const jump_power = -1500.0
 const acc = 50
 const friction = 70
 const gravity = 120
 const wall_jump_pushback = 300
 const wall_slide_gravity = 100
-const coyoteVelocity = 130 #for coyote jump/time
+
+#for coyote jump/time
+const minCoyoteVelocity = 120
+const maxCoyoteVelocity = 450
+
+var coyoteJumpCounter = 0
 
 #Dashing variables
 var canDash = true
@@ -16,24 +21,22 @@ var dashing = false
 var lastFacedDirection = "none"
 var direction = 1
 
+#The following variables are all used for jump() and wall_slide()
 #To enable doubleJump mechanics
 var canDoubleJump = true
-
 #So that the jump animation doesn't get clobbered by other animations, e.g. walk and idle
 var isJumping = false
-
 #Wall sliding variable
 var is_wall_sliding = false
-
 #So that the player can't climb one wall indefinitely, must bounce between 2 walls
 var whichWallAreYouOn = "none"
-
 #So the player doesn't bounce off of walls when they faceplant into them
 var jumpCooldown = 0.2
 
 #Main gameplay loop
 func _physics_process(delta):
 	var input_dir: Vector2 = input()
+	#print ("velocity: ", velocity.y)
 	
 	
 	#if in the middle of the air (jumping between walls), play the animation
@@ -62,16 +65,12 @@ func _physics_process(delta):
 		#Play idle animation ONLY if we are standing still and not midjump
 		if is_on_floor() and isJumping == false:
 			$AnimationPlayer.play("Idle")
-		
-		
-		
 	
 	#calls move_and_slide, we really don't need this function but w.e
 	player_movement()
 	
 	#sees if the player is jumping
 	jump()
-	print(input_dir)
 	dash(direction)
 
 	#sees if the player is sliding down a wall
@@ -89,7 +88,7 @@ func player_movement():
 #Acceleration function so you don't turn exactly on a dime
 func accelerate(direction):
 	velocity = velocity.move_toward(speed * direction, acc)
-	
+
 #Little bit of friction so you don't turn on a dime
 func add_friction():
 	velocity = velocity.move_toward(Vector2.ZERO, friction)
@@ -101,12 +100,17 @@ func input() -> Vector2:
 	input_dir.x = Input.get_axis("ui_left", "ui_right")
 	input_dir = input_dir.normalized()
 	return input_dir
-	
+
 #All jump mechanics handled in this function
 func jump():
 	
 	#Make the character fall due to gravity,
 	velocity.y += gravity
+	#print("velocity.y:", velocity.y)
+	
+	if is_on_floor():
+		coyoteJumpCounter = 0
+		canDoubleJump = true
 	
 	#If you are trying to jump off the wall
 	if is_on_wall() and Input.is_action_pressed("ui_select") and !is_on_floor():
@@ -126,8 +130,17 @@ func jump():
 			#establish that we are on right wall so that we can't jump on left wall to climb upwards
 			whichWallAreYouOn = "right"
 			
-	#Basic Jump from the floor
-	elif Input.is_action_pressed("ui_select") and is_on_floor():
+	#Basic Jump from the floor, with coyote jump implementation
+	elif Input.is_action_just_pressed("ui_select") and (is_on_floor() || ((velocity.y >= minCoyoteVelocity) and velocity.y <= maxCoyoteVelocity)) and coyoteJumpCounter == 0:
+		
+		#if we are coyote jumping
+		if !is_on_floor():
+			coyoteJumpCounter += 1
+		else:
+			#if we are doing a legit from the ground jump, reset double jump
+			canDoubleJump = true
+			
+		#the actual jump
 		velocity.y = jump_power
 		
 		#remind engine to reset the wall that the player is on
@@ -135,9 +148,10 @@ func jump():
 		
 		#So that the player doesn't immediately bounce off the wall when they faceplant into wall
 		jumpCooldown = 0.2
+		
+		#Play animation, isJumping prevents other animations from clobbering jump animation
 		$AnimationPlayer.play("Jump")
 		isJumping = true
-		canDoubleJump = true
 		
 	#double jump functionality
 	elif Input.is_action_just_pressed("ui_select") and !is_on_floor() and !is_on_wall() and canDoubleJump:
@@ -145,6 +159,7 @@ func jump():
 		$AnimationPlayer.play("Jump")
 		isJumping = true
 		canDoubleJump = false
+		print("just double jumped")
 		
 	#If we aren't actively in the process of jumping, allow other animations to play
 	else:
@@ -174,7 +189,6 @@ func dash(direction):
 		canDash = true
 		dashing = false
 
-
 #Allows player to slowly fall when hanging onto a wall
 func wall_slide(delta):
 	#If you are on the wall
@@ -195,8 +209,3 @@ func wall_slide(delta):
 		velocity.y += (wall_slide_gravity * delta)
 		velocity.y = min(velocity.y, wall_slide_gravity)
 		$AnimationPlayer.play("wallSliding")
-
-
-
-
-
