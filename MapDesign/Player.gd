@@ -9,10 +9,21 @@ const gravity = 120
 const wall_jump_pushback = 300
 const wall_slide_gravity = 100
 
-#for coyote jump/time
+#Combat Variables
+signal knockback
+var current_dir = "none"
+var enemy_in_range = false
+var enemy_attack_cool_down = true
+var health = 100
+var alive = true
+var attack_inprogress = false
+var dir = 1
+var motion = Vector2()
+var knockback_wait = 10
+
+#Coyote Jump/Time variables
 const minCoyoteVelocity = 120
 const maxCoyoteVelocity = 450
-
 var coyoteJumpCounter = 0
 
 #Dashing variables
@@ -209,3 +220,61 @@ func wall_slide(delta):
 		velocity.y += (wall_slide_gravity * delta)
 		velocity.y = min(velocity.y, wall_slide_gravity)
 		$AnimationPlayer.play("wallSliding")
+
+
+#Combat functions
+func _on_player_hitbox_body_entered(body):
+	if body.has_method("enemyslime"):
+		enemy_in_range = true
+
+func _on_player_hitbox_body_exited(body):
+	if body.has_method("enemyslime"):
+		enemy_in_range = false
+
+func enemy_attack():
+	if enemy_in_range and enemy_attack_cool_down == true:
+		health = health - 5
+		enemy_attack_cool_down = false
+		$Timer.start()
+		print(health)	 
+
+func _on_timer_timeout():
+	enemy_attack_cool_down = true
+
+func close_attack():
+	var dir = current_dir
+	if Input.is_action_just_pressed("attack"):
+		Global.player_current_attack = true
+		attack_inprogress = true
+		if dir == "right":
+			$AnimatedSprite2D.flip_h = false
+			$AnimatedSprite2D.play("attack")
+			$attack_timer.start()
+		if dir == "left":
+			$AnimatedSprite2D.flip_h = true
+			$AnimatedSprite2D.play("attack")
+			$attack_timer.start()
+		for body in $PlayerHitbox.get_overlapping_bodies():
+			if body.has_method("enemyslime"):
+				emit_signal("knockback")
+
+func _on_attack_timer_timeout():
+	$attack_timer.stop()
+	Global.player_current_attack =false
+	attack_inprogress = false
+
+func update_health():
+	var healthbar = $healthbar
+	healthbar.value = health
+	if health >= 100:
+		healthbar.visible = false
+	else:
+		healthbar.visible = true
+
+func _on_healthgen_timeout():
+	
+	if health < 100 or health > 0:
+		$healthgen.start()
+		health = health +20
+		if health >= 100:
+			health = 100
