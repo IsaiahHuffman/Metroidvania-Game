@@ -1,7 +1,5 @@
 extends CharacterBody2D
 
-var health = 10
-
 const speed = 400.0/2
 const jump_power = -1000 #-1500.0/2
 const acc = 50
@@ -22,8 +20,7 @@ var dashing = false
 var lastFacedDirection = "none"
 var direction = 1
 
-# combat vars
-var enemy_inattack_range = false
+
 
 @onready var all_interactions = [] # store interactions in an array
 
@@ -45,7 +42,9 @@ var jumpCooldown = 0.2
 
 #Main gameplay loop
 func _physics_process(delta):
+	checkQuit()
 	did_enemy_attack()
+	update_health()
 	var input_dir: Vector2 = input()
 	#print ("velocity: ", velocity.y)
 	
@@ -62,9 +61,9 @@ func _physics_process(delta):
 		#Change character direction when they run different directions
 		direction = Input.get_axis("left", "right")
 		if direction == -1:
-			get_node("Sprite2D").flip_h = true
+			$Sprite2D.flip_h = true
 		elif direction == 1:
-			get_node("Sprite2D").flip_h = false
+			$Sprite2D.flip_h = false
 		
 		#Only play walking animation if we are on the ground and not in midjump
 		if is_on_floor() and isJumping == false:
@@ -78,6 +77,17 @@ func _physics_process(delta):
 		if is_on_floor() and isJumping == false:
 			$AnimationPlayer.play("idle")
 	
+	if Input.is_action_just_pressed("attack") and !Global.player_current_attack:
+		if direction == 1:
+			$AttackPlayer.play("slash")
+		else:
+			$AttackPlayer.play("slashleft")
+		Global.player_current_attack = true
+		$AttackCD.start()
+	
+	if Input.is_action_just_pressed("interact") and nearInteract: # change this as its funky right now
+		Global.interact = all_interactions[0].interact_label
+		print(Global.interact)
 	#calls move_and_slide, we really don't need this function but w.e
 	player_movement()
 	
@@ -92,6 +102,8 @@ func _physics_process(delta):
 	jumpCooldown -= delta
 	if jumpCooldown <= 0:
 		jumpCooldown = 0
+	
+	death()
 
 #All this does is call move_and_slide, which voodoo magic's the game physics
 func player_movement():
@@ -126,7 +138,7 @@ func jump():
 	
 	#If you are trying to jump off the wall
 	if is_on_wall() and Input.is_action_pressed("jump") and !is_on_floor():
-		canDoubleJump = true
+		#canDoubleJump = true
 		
 		#If hugging the left wall, push off to the right
 		if Input.is_action_pressed("left") and jumpCooldown == 0 and whichWallAreYouOn != "left":
@@ -143,14 +155,15 @@ func jump():
 			whichWallAreYouOn = "right"
 			
 	#Basic Jump from the floor, with coyote jump implementation
-	elif Input.is_action_just_pressed("jump") and (is_on_floor() || ((velocity.y >= minCoyoteVelocity) and velocity.y <= maxCoyoteVelocity)) and coyoteJumpCounter == 0:
+	elif Input.is_action_just_pressed("jump") and canDoubleJump and (is_on_floor() || ((velocity.y >= minCoyoteVelocity) and velocity.y <= maxCoyoteVelocity)) and coyoteJumpCounter == 0:
 		
 		#if we are coyote jumping
 		if !is_on_floor():
 			coyoteJumpCounter += 1
-		else:
-			#if we are doing a legit from the ground jump, reset double jump
-			canDoubleJump = true
+			canDoubleJump = false
+		#else:
+			##if we are doing a legit from the ground jump, reset double jump
+			#canDoubleJump = true
 			
 		#the actual jump
 		velocity.y = jump_power
@@ -178,6 +191,9 @@ func jump():
 	else:
 		isJumping = false
 
+
+
+
 #Dash mechanic, at the moment purely for momentum
 #Possible damage application once we get further into development?
 func dash(direction):
@@ -203,6 +219,9 @@ func dash(direction):
 		canDash = true
 		dashing = false
 
+
+
+
 #Allows player to slowly fall when hanging onto a wall
 func wall_slide(delta):
 	#If you are on the wall
@@ -224,16 +243,23 @@ func wall_slide(delta):
 		velocity.y = min(velocity.y, wall_slide_gravity)
 		$AnimationPlayer.play("cling")
 
+
+
+
+
 ################
 # INTERACTIONS #
 ################
+var nearInteract = false
 func _on_interaction_area_area_entered(area):
-	if Input.is_action_pressed("interact"): # change this as its funky right now
-		all_interactions.insert(0,area) # store an interaction
-		updateInteractions()
+	nearInteract = true
+	#if Input.is_action_just_pressed("interact"): # change this as its funky right now
+	all_interactions.insert(0,area) # store an interaction
+	updateInteractions()
 
 
 func _on_interaction_area_area_exited(area):
+	nearInteract = false
 	all_interactions.erase(area) # remove an interaction
 	updateInteractions()
 
@@ -246,12 +272,16 @@ func updateInteractions():
 		$"Interactions/InteractLabel".text = ""
 
 
-
 ################
 #    HAZARDS   #
 ################
 func _on_kill_zone_body_shape_entered(body_rid, body, body_shape_index, local_shape_index):
-	print("ded") 
+	print("ouch, health is ", health)
+	health -= 1
+	$Sprite2D.modulate = Color.RED
+	await get_tree().create_timer(0.1).timeout
+	$Sprite2D.modulate = Color.WHITE
+
 
 
 
@@ -285,38 +315,103 @@ func _on_room_detector_area_entered(area):
 	#cam.limit_bottom = cam.limit_top + size.y
 	#cam.global_position = collisionShape.global_position
 	
-	print(cam.limit_left)
-	print(cam.limit_top)
-	print(cam.limit_right)
-	print(cam.limit_bottom)
+	#print(cam.limit_left)
+	#print(cam.limit_top)
+	#print(cam.limit_right)
+	#print(cam.limit_bottom)
 
-var enemy
+
+
+
 ################
 #    COMBAT    #
 ################
+# combat vars
+var enemy_inattack_range = false
+var enemy_attack_cooldown = true
+var MAX_HEALTH = 10
+var health = MAX_HEALTH
+var player_alive = true
+
+func update_health():
+	var healthbar = $HealthBar
+	healthbar.value = health
+	if health >= MAX_HEALTH:
+		healthbar.visible = false
+	else:
+		healthbar.visible = true
 #func _on_slash_area_area_entered(area):
+	#print("in range")
+	#enemy = area
 	#enemy_inattack_range = true
 #
 #func _on_slash_area_area_exited(area):
+	#enemy = null
 	#enemy_inattack_range = false
 
-func _on_slash_area_body_entered(body):
-	if body.has_method("Drone"):
+#func _on_slash_area_body_entered(body):
+	#if body.has_method("drone"):
+		#print("in range")
+		#enemy_inattack_range = true
+#
+##
+#func _on_slash_area_body_exited(body):
+	#if body.has_method("drone"):
+		#enemy_inattack_range = false
+
+# is a body in the hitbox that has a function enemy in the script?
+func _on_temp_hitbox_body_entered(body):
+	if body.has_method("enemy"):
 		print("in range")
-		enemy = body
 		enemy_inattack_range = true
 
 
-func _on_slash_area_body_exited(body):
-	if body.has_method("Drone"):
-		enemy = null
+func _on_temp_hitbox_body_exited(body):
+	if body.has_method("enemy"):
+		print("not in range")
 		enemy_inattack_range = false
-	#enemy_inattack_range = false
+
 
 func did_enemy_attack():
-	if enemy_inattack_range:
-		print("i can reach it!")
+	await get_tree().create_timer(3.0).timeout # two second grace period before attack
+	if enemy_inattack_range and enemy_attack_cooldown:
+		health -= 1
+		
+		print(health)
+		enemy_attack_cooldown = false
+		$DamageCD.start()
+		
+		$Sprite2D.modulate = Color.RED
+		await get_tree().create_timer(0.1).timeout
+		$Sprite2D.modulate = Color.WHITE
+		#$RegenCD.start()
 
+func _on_damage_cd_timeout():
+	$DamageCD.stop()
+	enemy_attack_cooldown = true # Replace with function body.
 
+func _on_attack_cd_timeout():
+	$AttackCD.stop()
+	Global.player_current_attack = false # this references a variable in "global.gd", it is autoloaded as global under project settings
 
+func death():
+	if health <= 0:
+		player_alive = false
+		print("ded")
+		#disable input?
+		$Death.visible = true
+		#$DeathSound.play()
+		# eventually make this a quit/respawn screen
+		await get_tree().create_timer(2.0).timeout
+		get_tree().change_scene_to_file("res://Menu.tscn")
+		# death screen
+		
 
+# needed for the "has_method" strat
+func player():
+	pass
+
+func checkQuit():
+	if Input.is_action_just_pressed("quit"):
+		await get_tree().create_timer(0.5).timeout # this is needed to prevent a bug with other timers
+		get_tree().change_scene_to_file("res://Menu.tscn") # current quit is just to go back to main menu

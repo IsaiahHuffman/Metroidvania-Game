@@ -1,14 +1,11 @@
-[gd_scene load_steps=28 format=3 uid="uid://djxqeg8h8m3ew"]
+[gd_scene load_steps=21 format=3 uid="uid://djxqeg8h8m3ew"]
 
 [ext_resource type="Script" path="res://player/Player.gd" id="1_00g1a"]
 [ext_resource type="Texture2D" uid="uid://dfm0gpihst43" path="res://sprites/player_all_sheet.png" id="2_dinxw"]
 [ext_resource type="Texture2D" uid="uid://ddap6vkumg5pp" path="res://sprites/slash.png" id="3_iowun"]
-[ext_resource type="AudioStream" uid="uid://dx2dh7xwtaxku" path="res://sounds/Roblox Death Sound - OOF  Sound Effect HD - HomeMadeSoundEffects.mp3" id="4_btkph"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dw0xp"]
 size = Vector2(31, 58)
-
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_2qeuv"]
 
 [sub_resource type="Animation" id="Animation_lico3"]
 resource_name = "cling"
@@ -152,6 +149,7 @@ size = Vector2(41, 58)
 [sub_resource type="Animation" id="Animation_um8x7"]
 resource_name = "slash"
 length = 0.6
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -171,68 +169,15 @@ tracks/1/path = NodePath("Attack:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [false, true, false]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Attack:flip_v")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-
-[sub_resource type="Animation" id="Animation_7o03m"]
-resource_name = "slashleft"
-length = 0.6
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Attack:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0.1, 0.2, 0.3, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [0, 1, 2, 3]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Attack:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [false, true, false]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Attack:flip_v")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
+"values": [false, false]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_kjik4"]
 _data = {
-"slash": SubResource("Animation_um8x7"),
-"slashleft": SubResource("Animation_7o03m")
+"slash": SubResource("Animation_um8x7")
 }
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_q331m"]
@@ -240,36 +185,13 @@ radius = 27.0
 height = 64.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_uo647"]
-radius = 32.0
+radius = 25.0
 height = 64.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_og4e3"]
-bg_color = Color(1, 0.32549, 0.388235, 1)
-corner_radius_top_left = 32
-corner_radius_top_right = 32
-corner_radius_bottom_right = 32
-corner_radius_bottom_left = 32
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gkp47"]
-bg_color = Color(0, 0.72549, 0.219608, 1)
-corner_radius_top_left = 32
-corner_radius_top_right = 32
-corner_radius_bottom_right = 32
-corner_radius_bottom_left = 32
-
-[sub_resource type="Animation" id="Animation_yvluv"]
-resource_name = "hurt"
-loop_mode = 1
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_ohdt4"]
-_data = {
-"hurt": SubResource("Animation_yvluv")
-}
 
 [node name="Node2D" type="Node2D"]
 
 [node name="Player" type="CharacterBody2D" parent="."]
-collision_layer = 49
+collision_layer = 17
 script = ExtResource("1_00g1a")
 
 [node name="Collision" type="CollisionShape2D" parent="Player"]
@@ -278,7 +200,6 @@ shape = SubResource("RectangleShape2D_dw0xp")
 debug_color = Color(0.113725, 0.603922, 0.658824, 0.419608)
 
 [node name="Sprite2D" type="Sprite2D" parent="Player"]
-material = SubResource("CanvasItemMaterial_2qeuv")
 scale = Vector2(2, 2)
 texture = ExtResource("2_dinxw")
 hframes = 25
@@ -289,9 +210,8 @@ libraries = {
 }
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
-offset = Vector2(0, -30)
-zoom = Vector2(3, 3)
-position_smoothing_speed = 1.0
+offset = Vector2(0, -55)
+zoom = Vector2(3.5, 3.5)
 
 [node name="Interactions" type="Node2D" parent="Player"]
 z_index = 1
@@ -307,7 +227,6 @@ shape = SubResource("CircleShape2D_l2a1w")
 debug_color = Color(0.490196, 0.576471, 0.270588, 0.419608)
 
 [node name="InteractLabel" type="Label" parent="Player/Interactions"]
-visible = false
 offset_left = -30.0
 offset_top = -49.0
 offset_right = 31.0
@@ -343,6 +262,7 @@ rotation = 1.5708
 scale = Vector2(2, 2)
 texture = ExtResource("3_iowun")
 flip_h = true
+flip_v = true
 hframes = 4
 
 [node name="AttackPlayer" type="AnimationPlayer" parent="Player"]
@@ -368,41 +288,9 @@ position = Vector2(0, 14)
 shape = SubResource("CapsuleShape2D_uo647")
 
 [node name="DamageCD" type="Timer" parent="Player"]
-editor_description = "this is the timer for the enemies attacks. it is confusing to me to do this on the player node so potentially change this in the future since, this CD would be used for all incoming damage from enemies 		-Brandon"
 wait_time = 1.5
 
 [node name="AttackCD" type="Timer" parent="Player"]
-
-[node name="RegenCD" type="Timer" parent="Player"]
-wait_time = 10.0
-
-[node name="HealthBar" type="ProgressBar" parent="Player"]
-offset_left = -25.0
-offset_top = -33.0
-offset_right = 25.0
-offset_bottom = -25.0
-theme_override_styles/background = SubResource("StyleBoxFlat_og4e3")
-theme_override_styles/fill = SubResource("StyleBoxFlat_gkp47")
-max_value = 10.0
-step = 1.0
-show_percentage = false
-
-[node name="Death" type="Label" parent="Player"]
-visible = false
-offset_left = -34.0
-offset_top = -63.0
-offset_right = 34.0
-offset_bottom = -40.0
-text = "You died"
-
-[node name="DeathSound" type="AudioStreamPlayer" parent="Player"]
-stream = ExtResource("4_btkph")
-volume_db = 10.0
-
-[node name="HurtPlayer" type="AnimationPlayer" parent="Player"]
-libraries = {
-"": SubResource("AnimationLibrary_ohdt4")
-}
 
 [connection signal="area_entered" from="Player/Interactions/InteractionArea" to="Player" method="_on_interaction_area_area_entered"]
 [connection signal="area_exited" from="Player/Interactions/InteractionArea" to="Player" method="_on_interaction_area_area_exited"]
@@ -411,14 +299,12 @@ libraries = {
 [connection signal="area_entered" from="Player/CameraChanges/RoomDetector" to="Player" method="_on_room_detector_area_entered"]
 [connection signal="area_entered" from="Player/SlashArea" to="Player" method="_on_slash_hitbox_area_entered"]
 [connection signal="area_entered" from="Player/SlashArea" to="Player" method="_on_slash_area_area_entered"]
-[connection signal="area_exited" from="Player/SlashArea" to="Player" method="_on_slash_area_area_exited"]
 [connection signal="area_exited" from="Player/SlashArea" to="Player" method="_on_slash_hitbox_area_exited"]
-[connection signal="body_entered" from="Player/SlashArea" to="Player" method="_on_slash_hitbox_body_entered"]
+[connection signal="area_exited" from="Player/SlashArea" to="Player" method="_on_slash_area_area_exited"]
 [connection signal="body_entered" from="Player/SlashArea" to="Player" method="_on_slash_area_body_entered"]
+[connection signal="body_entered" from="Player/SlashArea" to="Player" method="_on_slash_hitbox_body_entered"]
 [connection signal="body_exited" from="Player/SlashArea" to="Player" method="_on_slash_area_body_exited"]
 [connection signal="body_exited" from="Player/SlashArea" to="Player" method="_on_slash_hitbox_body_exited"]
 [connection signal="body_entered" from="Player/tempHitbox" to="Player" method="_on_temp_hitbox_body_entered"]
 [connection signal="body_exited" from="Player/tempHitbox" to="Player" method="_on_temp_hitbox_body_exited"]
 [connection signal="timeout" from="Player/DamageCD" to="Player" method="_on_damage_cd_timeout"]
-[connection signal="timeout" from="Player/AttackCD" to="Player" method="_on_attack_cd_timeout"]
-[connection signal="timeout" from="Player/RegenCD" to="Player" method="_on_regen_cd_timeout"]
