@@ -242,15 +242,15 @@ func _on_timer_timeout():
 	enemy_attack_cool_down = true
 
 func close_attack():
-	var dir = current_dir
+	var dirC = current_dir
 	if Input.is_action_just_pressed("attack"):
 		Global.player_current_attack = true
 		attack_inprogress = true
-		if dir == "right":
+		if dirC == "right":
 			$AnimatedSprite2D.flip_h = false
 			$AnimatedSprite2D.play("attack")
 			$attack_timer.start()
-		if dir == "left":
+		if dirC == "left":
 			$AnimatedSprite2D.flip_h = true
 			$AnimatedSprite2D.play("attack")
 			$attack_timer.start()
