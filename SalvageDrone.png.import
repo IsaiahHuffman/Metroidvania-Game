@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://brshp1kjd43qj"
-path="res://.godot/imported/SalvageDrone.png-76b6719aa3e963ebd93cc109fb8eb8ba.ctex"
+path="res://.godot/imported/SalvageDrone.png-1e1c23a2307233b1fce1329f4dac7ce5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/SalvageDrone.png"
-dest_files=["res://.godot/imported/SalvageDrone.png-76b6719aa3e963ebd93cc109fb8eb8ba.ctex"]
+source_file="res://SalvageDrone.png"
+dest_files=["res://.godot/imported/SalvageDrone.png-1e1c23a2307233b1fce1329f4dac7ce5.ctex"]
 
 [params]
 
