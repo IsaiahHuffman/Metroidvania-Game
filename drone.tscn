@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://b7irfbxr35wkx"]
 
 [ext_resource type="Script" path="res://mobs/Drone.gd" id="1_llatu"]
-[ext_resource type="Texture2D" uid="uid://brshp1kjd43qj" path="res://sprites/SalvageDrone.png" id="1_ys1bk"]
+[ext_resource type="Texture2D" uid="uid://brshp1kjd43qj" path="res://SalvageDrone.png" id="1_ys1bk"]
 
 [sub_resource type="Animation" id="Animation_incr5"]
 resource_name = "active"

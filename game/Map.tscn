@@ -1,18 +1,18 @@
 [gd_scene load_steps=22 format=3 uid="uid://djo3qk0bm23jq"]
 
 [ext_resource type="Script" path="res://game/Map.gd" id="1_0poi3"]
-[ext_resource type="Texture2D" uid="uid://bd6w7tfjuwoml" path="res://tiles/mainlev_build.png" id="1_7v1bj"]
-[ext_resource type="Texture2D" uid="uid://dt4m14o23weo" path="res://tiles/background1.png" id="1_jy84n"]
-[ext_resource type="Texture2D" uid="uid://i70g4h51b21v" path="res://tiles/background3.png" id="2_7vje4"]
-[ext_resource type="PackedScene" uid="uid://djxqeg8h8m3ew" path="res://player/player.tscn" id="2_rg5sh"]
-[ext_resource type="Texture2D" uid="uid://cokwm1pt3mkpx" path="res://tiles/background2.png" id="3_hnckd"]
-[ext_resource type="Texture2D" uid="uid://x3fmmtp8lfag" path="res://sprites/goop.png" id="4_4u0mp"]
-[ext_resource type="Texture2D" uid="uid://blpj6xsygc51x" path="res://tiles/background4a.png" id="4_l7dj8"]
-[ext_resource type="Texture2D" uid="uid://dr2sihsnhp57j" path="res://tiles/background4b.png" id="5_7hwui"]
-[ext_resource type="PackedScene" uid="uid://cyppth5d3xoiq" path="res://enviro/Interactable.tscn" id="5_64qdy"]
+[ext_resource type="Texture2D" uid="uid://bd6w7tfjuwoml" path="res://mainlev_build.png" id="1_7v1bj"]
+[ext_resource type="Texture2D" uid="uid://dt4m14o23weo" path="res://background1.png" id="1_jy84n"]
+[ext_resource type="Texture2D" uid="uid://i70g4h51b21v" path="res://background3.png" id="2_7vje4"]
+[ext_resource type="PackedScene" uid="uid://djxqeg8h8m3ew" path="res://player.tscn" id="2_rg5sh"]
+[ext_resource type="Texture2D" uid="uid://cokwm1pt3mkpx" path="res://background2.png" id="3_hnckd"]
+[ext_resource type="Texture2D" uid="uid://x3fmmtp8lfag" path="res://goop.png" id="4_4u0mp"]
+[ext_resource type="Texture2D" uid="uid://blpj6xsygc51x" path="res://background4a.png" id="4_l7dj8"]
+[ext_resource type="Texture2D" uid="uid://dr2sihsnhp57j" path="res://background4b.png" id="5_7hwui"]
+[ext_resource type="PackedScene" uid="uid://cyppth5d3xoiq" path="res://Interactable.tscn" id="5_64qdy"]
 [ext_resource type="AudioStream" uid="uid://dujy1v1bkejlb" path="res://8Bit_cave___Mar_28_2024_820_PM.wav" id="8_l72m7"]
-[ext_resource type="PackedScene" uid="uid://b7irfbxr35wkx" path="res://mobs/drone.tscn" id="11_ojovk"]
-[ext_resource type="Texture2D" uid="uid://g7po3hywxgnb" path="res://sprites/particles.png" id="13_r1xaa"]
+[ext_resource type="PackedScene" uid="uid://b7irfbxr35wkx" path="res://drone.tscn" id="11_ojovk"]
+[ext_resource type="Texture2D" uid="uid://g7po3hywxgnb" path="res://particles.png" id="13_r1xaa"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cb1lk"]
 size = Vector2(390, 233)
@@ -4944,7 +4944,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="MainMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_l72m7")
-volume_db = 10.0
+volume_db = -80.0
 autoplay = true
 
 [node name="Door" type="CharacterBody2D" parent="."]

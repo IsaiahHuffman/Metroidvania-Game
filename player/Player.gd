@@ -10,7 +10,7 @@ const wall_slide_gravity = 100
 
 #for coyote jump/time
 const minCoyoteVelocity = 120
-const maxCoyoteVelocity = 450
+const maxCoyoteVelocity = 250
 
 var coyoteJumpCounter = 0
 
@@ -36,6 +36,7 @@ var whichWallAreYouOn = "none"
 #So the player doesn't bounce off of walls when they faceplant into them
 var jumpCooldown = 0.2
 
+
 #func _process(delta):
 	#self.global_position = get_global_mouse_position()
 	#if $Au
@@ -50,9 +51,8 @@ func _physics_process(delta):
 	
 	
 	#if in the middle of the air (jumping between walls), play the animation
-	#if !is_on_floor() and !is_on_wall():
-		#$AnimationPlayer.play("jumpBetweenWalls")
-	# UNCOMMENT ABOVE
+	if !is_on_floor() and !is_on_wall():
+		$AnimationPlayer.play("jumpBetweenWalls")
 	
 	#If we move left or right
 	if input_dir != Vector2.ZERO:
@@ -185,7 +185,6 @@ func jump():
 		$AnimationPlayer.play("jump")
 		isJumping = true
 		canDoubleJump = false
-		print("just double jumped")
 		
 	#If we aren't actively in the process of jumping, allow other animations to play
 	else:
