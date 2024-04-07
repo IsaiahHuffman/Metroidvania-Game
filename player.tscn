@@ -6,7 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://dx2dh7xwtaxku" path="res://Roblox Death Sound - OOF  Sound Effect HD - HomeMadeSoundEffects.mp3" id="4_btkph"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dw0xp"]
-size = Vector2(21, 58)
+size = Vector2(21, 51)
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_2qeuv"]
 
@@ -286,17 +286,17 @@ _data = {
 [node name="Node2D" type="Node2D"]
 
 [node name="Player" type="CharacterBody2D" parent="."]
-scale = Vector2(1.2, 0.8)
 collision_layer = 49
 script = ExtResource("1_00g1a")
 
 [node name="PlayerCollission" type="CollisionShape2D" parent="Player"]
-position = Vector2(0.5, 13)
+position = Vector2(0.5, 6.5)
 shape = SubResource("RectangleShape2D_dw0xp")
 debug_color = Color(0.113725, 0.603922, 0.658824, 0.419608)
 
 [node name="Sprite2D" type="Sprite2D" parent="Player"]
 material = SubResource("CanvasItemMaterial_2qeuv")
+position = Vector2(0, -9)
 scale = Vector2(2, 2)
 texture = ExtResource("2_dinxw")
 hframes = 25
