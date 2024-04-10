@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3 uid="uid://ctjgtfas6ldsr"]
+
+[ext_resource type="Script" path="res://Main.gd" id="1_l1pti"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_l1pti")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 32.0
+offset_top = -41.0
+offset_right = 72.0
+offset_bottom = -1.0
+
+[node name="Basic Text" type="Label" parent="."]
+offset_left = 32.0
+offset_top = -41.0
+offset_right = 121.0
+offset_bottom = -18.0
+text = "Hello world"
+
+[connection signal="ready" from="." to="." method="_on_ready"]

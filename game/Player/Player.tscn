@@ -1,0 +1,58 @@
+[gd_scene load_steps=5 format=3 uid="uid://cton2o3xsuut"]
+
+[ext_resource type="Script" path="res://game/Player/Player.gd" id="1_cxmrw"]
+[ext_resource type="Texture2D" uid="uid://bc674tv25vskc" path="res://game/assets/icon.svg" id="1_mavuj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2hh02"]
+size = Vector2(40.4219, 38.5)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_be8tp"]
+radius = 17.0
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_cxmrw")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-3.8147e-06, -4)
+scale = Vector2(0.328125, 0.308594)
+texture = ExtResource("1_mavuj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.21095, -4.25)
+shape = SubResource("RectangleShape2D_2hh02")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(11, 6)
+zoom = Vector2(1.8, 1.8)
+limit_left = 0
+limit_top = 100
+limit_bottom = 980
+editor_draw_limits = true
+
+[node name="AttackArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
+position = Vector2(31, 0)
+shape = SubResource("CircleShape2D_be8tp")
+
+[node name="DashTimer" type="Timer" parent="."]
+wait_time = 0.2
+
+[node name="DashAgainTimer" type="Timer" parent="."]
+wait_time = 2.0
+
+[node name="CoyoteJump" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[node name="ShootArea" type="Node2D" parent="."]
+position = Vector2(-1, -2)
+
+[node name="Shoot" type="Marker2D" parent="ShootArea"]
+position = Vector2(37, 0)
+
+[connection signal="area_entered" from="AttackArea" to="." method="_on_attack_area_area_entered"]
+[connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
+[connection signal="body_exited" from="AttackArea" to="." method="_on_attack_area_body_exited"]
+[connection signal="timeout" from="DashTimer" to="." method="_on_dash_timer_timeout"]
+[connection signal="timeout" from="DashAgainTimer" to="." method="_on_dash_again_timer_timeout"]

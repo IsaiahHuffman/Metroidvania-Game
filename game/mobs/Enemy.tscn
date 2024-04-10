@@ -1,0 +1,54 @@
+[gd_scene load_steps=5 format=3 uid="uid://bx6p86d1bvy3p"]
+
+[ext_resource type="Texture2D" uid="uid://bc674tv25vskc" path="res://game/assets/icon.svg" id="1_akxfa"]
+[ext_resource type="Script" path="res://game/mobs/Enemy.gd" id="1_m2cmm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cp4dn"]
+size = Vector2(31, 30)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3f2om"]
+radius = 59.75
+height = 283.5
+
+[node name="Enemy" type="CharacterBody2D"]
+script = ExtResource("1_m2cmm")
+
+[node name="Temp Hitbox" type="Area2D" parent="."]
+position = Vector2(-1.5, -1)
+
+[node name="Hitbox" type="CollisionShape2D" parent="Temp Hitbox"]
+position = Vector2(-1.5, -1)
+shape = SubResource("RectangleShape2D_cp4dn")
+
+[node name="Player Detection" type="Area2D" parent="."]
+position = Vector2(0.25, 0.75)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player Detection"]
+rotation = -1.5708
+shape = SubResource("CapsuleShape2D_3f2om")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-1, 0)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_akxfa")
+
+[node name="Hitbox" type="CollisionShape2D" parent="."]
+position = Vector2(-1.5, -1)
+shape = SubResource("RectangleShape2D_cp4dn")
+
+[node name="Edge Detection" type="Node2D" parent="."]
+
+[node name="RayCast_R" type="RayCast2D" parent="Edge Detection"]
+position = Vector2(-18, 1)
+target_position = Vector2(-1, 76)
+
+[node name="RayCast_L" type="RayCast2D" parent="Edge Detection"]
+position = Vector2(16, 1)
+target_position = Vector2(1, 78)
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+debug_enabled = true
+
+[connection signal="body_entered" from="Temp Hitbox" to="." method="_on_temp_hitbox_body_entered"]
+[connection signal="body_entered" from="Player Detection" to="." method="_on_player_detection_body_entered"]
+[connection signal="body_exited" from="Player Detection" to="." method="_on_player_detection_body_exited"]
