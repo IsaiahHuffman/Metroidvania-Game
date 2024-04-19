@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://cioxldlxo01pb"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_2f71n"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ahe1s"]
+size = Vector2(0.9927, 0.926022)
+
+[node name="OneWayPlatform" type="Node2D"]
+
+[node name="OneWayPlatform" type="Sprite2D" parent="."]
+scale = Vector2(102.75, 12.125)
+texture = SubResource("CanvasTexture_2f71n")
+
+[node name="StaticBody" type="StaticBody2D" parent="OneWayPlatform"]
+position = Vector2(-5.43066, -55.9184)
+scale = Vector2(0.00973236, 0.0816327)
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OneWayPlatform/StaticBody"]
+visible = false
+position = Vector2(558, 685)
+scale = Vector2(102.75, 12.25)
+shape = SubResource("RectangleShape2D_ahe1s")
+one_way_collision = true
+debug_color = Color(0.803922, 0.545098, 0.54902, 0.419608)
+metadata/_edit_lock_ = true
