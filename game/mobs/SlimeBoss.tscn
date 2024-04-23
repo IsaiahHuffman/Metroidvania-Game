@@ -1,0 +1,101 @@
+[gd_scene load_steps=9 format=3 uid="uid://dlaintcs5s47h"]
+
+[ext_resource type="Script" path="res://game/mobs/SlimeBoss.gd" id="1_85cve"]
+[ext_resource type="Texture2D" uid="uid://dgael4ic3hpde" path="res://game/assets/slime.png" id="2_v6nob"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vreg4"]
+radius = 19.4431
+height = 38.8861
+
+[sub_resource type="Animation" id="Animation_a815l"]
+resource_name = "jump"
+length = 0.9
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_te4bs"]
+_data = {
+"jump": SubResource("Animation_a815l")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_l5p4l"]
+radius = 41.3038
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0qjeo"]
+bg_color = Color(1, 0.32549, 0.388235, 1)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_doyao"]
+bg_color = Color(0, 0.72549, 0.219608, 1)
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[node name="SlimeBoss" type="CharacterBody2D"]
+collision_layer = 5
+collision_mask = 5
+script = ExtResource("1_85cve")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(12, -21)
+scale = Vector2(4, 4)
+texture = ExtResource("2_v6nob")
+hframes = 3
+vframes = 3
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 3)
+scale = Vector2(1.85156, 1.67969)
+shape = SubResource("CapsuleShape2D_vreg4")
+
+[node name="JumpTimer" type="Timer" parent="."]
+wait_time = 2.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Sprite2D")
+libraries = {
+"": SubResource("AnimationLibrary_te4bs")
+}
+
+[node name="DamageCD" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="Hitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, 1)
+shape = SubResource("CircleShape2D_l5p4l")
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+offset_left = -15.0
+offset_top = -52.0
+offset_right = 15.0
+offset_bottom = -47.0
+theme_override_styles/background = SubResource("StyleBoxFlat_0qjeo")
+theme_override_styles/fill = SubResource("StyleBoxFlat_doyao")
+max_value = 15.0
+step = 1.0
+value = 15.0
+show_percentage = false
+metadata/_edit_use_anchors_ = true
+
+[connection signal="timeout" from="JumpTimer" to="." method="_on_jump_timer_timeout"]
+[connection signal="timeout" from="DamageCD" to="." method="_on_damage_cd_timeout"]
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]
+[connection signal="body_exited" from="Hitbox" to="." method="_on_hitbox_body_exited"]

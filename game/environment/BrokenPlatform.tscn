@@ -1,0 +1,75 @@
+[gd_scene load_steps=7 format=3 uid="uid://ckba06pfxm5ld"]
+
+[ext_resource type="Script" path="res://game/environment/BrokenPlatform.gd" id="1_grce2"]
+[ext_resource type="Texture2D" uid="uid://bi2akflo1gqwb" path="res://game/assets/BreakingPlatform.png" id="2_3k1qu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u8squ"]
+size = Vector2(47, 1.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oudof"]
+size = Vector2(49, 18.5)
+
+[sub_resource type="Animation" id="Animation_obye2"]
+resource_name = "break"
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionShape2D/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 0.9, 1.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 2, 4, 6, 8, 10, 4]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cti0x"]
+_data = {
+"break": SubResource("Animation_obye2")
+}
+
+[node name="Node2D" type="Node2D"]
+
+[node name="BrokenPlatform" type="StaticBody2D" parent="."]
+script = ExtResource("1_grce2")
+
+[node name="DeleteTimer" type="Timer" parent="BrokenPlatform"]
+one_shot = true
+
+[node name="ReappearTimer" type="Timer" parent="BrokenPlatform"]
+
+[node name="Player Detection" type="Area2D" parent="BrokenPlatform"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BrokenPlatform/Player Detection"]
+position = Vector2(-0.5, -10.75)
+shape = SubResource("RectangleShape2D_u8squ")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BrokenPlatform"]
+shape = SubResource("RectangleShape2D_oudof")
+
+[node name="Sprite2D" type="Sprite2D" parent="BrokenPlatform/CollisionShape2D"]
+position = Vector2(0, -1)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("2_3k1qu")
+hframes = 4
+vframes = 4
+
+[node name="ColorRect" type="ColorRect" parent="BrokenPlatform/CollisionShape2D"]
+visible = false
+offset_left = -24.0
+offset_top = -9.0
+offset_right = 24.0
+offset_bottom = 9.0
+color = Color(0.321569, 0.65098, 0.54902, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="BrokenPlatform"]
+libraries = {
+"": SubResource("AnimationLibrary_cti0x")
+}
+
+[connection signal="timeout" from="BrokenPlatform/DeleteTimer" to="BrokenPlatform" method="_on_timer_timeout"]
+[connection signal="timeout" from="BrokenPlatform/DeleteTimer" to="BrokenPlatform" method="_on_delete_timer_timeout"]
+[connection signal="timeout" from="BrokenPlatform/ReappearTimer" to="BrokenPlatform" method="_on_reappear_timer_timeout"]
+[connection signal="body_entered" from="BrokenPlatform/Player Detection" to="BrokenPlatform" method="_on_player_detection_body_entered"]

@@ -1,0 +1,128 @@
+[gd_scene load_steps=11 format=3 uid="uid://csphg42bise02"]
+
+[ext_resource type="Script" path="res://game/mobs/Drone.gd" id="1_llatu"]
+[ext_resource type="Texture2D" uid="uid://dhtp1l8v63bkh" path="res://game/assets/SalvageDrone.png" id="1_ys1bk"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4dyta"]
+radius = 17.0294
+
+[sub_resource type="Animation" id="Animation_incr5"]
+resource_name = "active"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4]
+}
+
+[sub_resource type="Animation" id="Animation_ehj7t"]
+resource_name = "death"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.6, 0.6), Vector2(0.3, 0.3), Vector2(0.1, 0.1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6hetx"]
+_data = {
+"active": SubResource("Animation_incr5"),
+"death": SubResource("Animation_ehj7t")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gh1gm"]
+radius = 125.1
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_27dt3"]
+radius = 21.0238
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ymd2m"]
+bg_color = Color(1, 0.32549, 0.388235, 1)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n2xe6"]
+bg_color = Color(0, 0.72549, 0.219608, 1)
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[node name="Drone" type="CharacterBody2D"]
+collision_layer = 5
+script = ExtResource("1_llatu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(-1, -1)
+shape = SubResource("CircleShape2D_4dyta")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_ys1bk")
+hframes = 2
+vframes = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_6hetx")
+}
+
+[node name="DetectionArea" type="Area2D" parent="."]
+visible = false
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+position = Vector2(-1, -5)
+shape = SubResource("CircleShape2D_gh1gm")
+
+[node name="Hitbox" type="Area2D" parent="."]
+visible = false
+collision_layer = 5
+collision_mask = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(-1, -1)
+shape = SubResource("CircleShape2D_27dt3")
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
+
+[node name="DamageCD" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+offset_left = -16.0
+offset_top = -24.0
+offset_right = 14.0
+offset_bottom = -19.0
+theme_override_styles/background = SubResource("StyleBoxFlat_ymd2m")
+theme_override_styles/fill = SubResource("StyleBoxFlat_n2xe6")
+max_value = 4.0
+step = 1.0
+value = 4.0
+show_percentage = false
+metadata/_edit_use_anchors_ = true
+
+[connection signal="area_entered" from="DetectionArea" to="." method="_on_detection_area_area_entered"]
+[connection signal="area_exited" from="DetectionArea" to="." method="_on_detection_area_area_exited"]
+[connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
+[connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]
+[connection signal="body_exited" from="Hitbox" to="." method="_on_hitbox_body_exited"]
+[connection signal="timeout" from="DamageCD" to="." method="_on_damage_cd_timeout"]

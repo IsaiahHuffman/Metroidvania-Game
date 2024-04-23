@@ -1,0 +1,49 @@
+[gd_scene load_steps=5 format=3 uid="uid://dw5pm765s3tq8"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_4nq0v"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yx7iv"]
+size = Vector2(171, 19.5)
+
+[sub_resource type="Animation" id="Animation_geqm7"]
+resource_name = "Move"
+length = 3.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.6, 2.9),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(-150, -1), Vector2(150, -1), Vector2(-150, -1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_llkfm"]
+_data = {
+"Move": SubResource("Animation_geqm7")
+}
+
+[node name="Node2D" type="Node2D"]
+
+[node name="MovingPlatform" type="AnimatableBody2D" parent="."]
+position = Vector2(-27.3679, -1)
+sync_to_physics = false
+
+[node name="Sprite2D" type="Sprite2D" parent="MovingPlatform"]
+position = Vector2(0.531254, 0.59375)
+scale = Vector2(170.938, 18.8125)
+texture = SubResource("PlaceholderTexture2D_4nq0v")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MovingPlatform"]
+position = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_yx7iv")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MovingPlatform"]
+libraries = {
+"": SubResource("AnimationLibrary_llkfm")
+}
+autoplay = "Move"

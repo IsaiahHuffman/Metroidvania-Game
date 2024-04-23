@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=3 uid="uid://0kjq1wiaeuhw"]
+
+[ext_resource type="Script" path="res://game/Player/Bullet.gd" id="1_ga6wv"]
+[ext_resource type="Texture2D" uid="uid://crgwu4uxlfheq" path="res://game/assets/particles.png" id="2_nory5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kubnc"]
+size = Vector2(5, 5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_evdv7"]
+size = Vector2(12, 12)
+
+[node name="Bullet" type="CharacterBody2D" groups=["Bullet"]]
+collision_layer = 5
+collision_mask = 5
+script = ExtResource("1_ga6wv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_kubnc")
+disabled = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(2, 7)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("2_nory5")
+hframes = 12
+frame = 7
+
+[node name="Hit Detector" type="Area2D" parent="."]
+collision_layer = 5
+collision_mask = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hit Detector"]
+shape = SubResource("RectangleShape2D_evdv7")
+
+[node name="FlightTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[connection signal="body_entered" from="Hit Detector" to="." method="_on_hit_detector_body_entered"]
+[connection signal="timeout" from="FlightTimer" to="." method="_on_flight_timer_timeout"]

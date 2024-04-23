@@ -1,0 +1,169 @@
+[gd_scene load_steps=12 format=3 uid="uid://bx6p86d1bvy3p"]
+
+[ext_resource type="Script" path="res://game/mobs/Enemy.gd" id="1_m2cmm"]
+[ext_resource type="Texture2D" uid="uid://b14242a5ggvnw" path="res://game/assets/Legacy-Fantasy - High Forest 2.3/Mob/Snail/all.png" id="2_p3ibk"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3tuvr"]
+radius = 18.6667
+height = 64.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3f2om"]
+radius = 59.75
+height = 283.5
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cp4dn"]
+size = Vector2(56.125, 31)
+
+[sub_resource type="Animation" id="Animation_2b7ts"]
+resource_name = "death"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [10, 11, 12, 13]
+}
+
+[sub_resource type="Animation" id="Animation_nhcqb"]
+resource_name = "fall"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [9]
+}
+
+[sub_resource type="Animation" id="Animation_8gap4"]
+resource_name = "walk"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 4, 5, 6, 7]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hgpv4"]
+_data = {
+"death": SubResource("Animation_2b7ts"),
+"fall": SubResource("Animation_nhcqb"),
+"walk": SubResource("Animation_8gap4")
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6dcnr"]
+bg_color = Color(1, 0.32549, 0.388235, 1)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j442k"]
+bg_color = Color(0, 0.72549, 0.219608, 1)
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[node name="Enemy" type="CharacterBody2D"]
+scale = Vector2(0.75, 0.75)
+collision_layer = 5
+collision_mask = 5
+script = ExtResource("1_m2cmm")
+
+[node name="Hitbox" type="Area2D" parent="."]
+visible = false
+position = Vector2(-1.5, -1)
+collision_layer = 5
+collision_mask = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(-1.16667, -0.333333)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_3tuvr")
+
+[node name="Player Detection" type="Area2D" parent="."]
+visible = false
+position = Vector2(0.25, 0.75)
+collision_mask = 5
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player Detection"]
+rotation = -1.5708
+shape = SubResource("CapsuleShape2D_3f2om")
+metadata/_edit_lock_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-1.33333, -4)
+scale = Vector2(1.25, 1.25)
+texture = ExtResource("2_p3ibk")
+hframes = 8
+vframes = 5
+frame = 10
+
+[node name="someBox" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(-0.0624915, 1.33333)
+shape = SubResource("RectangleShape2D_cp4dn")
+
+[node name="Edge Detection" type="Node2D" parent="."]
+visible = false
+
+[node name="RayCast_R" type="RayCast2D" parent="Edge Detection"]
+visible = false
+position = Vector2(-18, 1)
+target_position = Vector2(-1, 76)
+
+[node name="RayCast_L" type="RayCast2D" parent="Edge Detection"]
+visible = false
+position = Vector2(18, 1)
+target_position = Vector2(1, 78)
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+debug_enabled = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_hgpv4")
+}
+
+[node name="DamageCD" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+offset_left = -16.0
+offset_top = -24.0
+offset_right = 14.0
+offset_bottom = -19.0
+theme_override_styles/background = SubResource("StyleBoxFlat_6dcnr")
+theme_override_styles/fill = SubResource("StyleBoxFlat_j442k")
+max_value = 8.0
+step = 1.0
+value = 8.0
+show_percentage = false
+metadata/_edit_use_anchors_ = true
+
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]
+[connection signal="body_exited" from="Hitbox" to="." method="_on_hitbox_body_exited"]
+[connection signal="body_entered" from="Player Detection" to="." method="_on_player_detection_body_entered"]
+[connection signal="body_exited" from="Player Detection" to="." method="_on_player_detection_body_exited"]
+[connection signal="timeout" from="DamageCD" to="." method="_on_damage_cd_timeout"]

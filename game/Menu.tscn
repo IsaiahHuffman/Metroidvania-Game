@@ -1,0 +1,72 @@
+[gd_scene load_steps=4 format=3 uid="uid://dnac02yydrcv8"]
+
+[ext_resource type="Script" path="res://game/Menu.gd" id="1_v8plm"]
+[ext_resource type="Texture2D" uid="uid://bjbs5bwr8g5em" path="res://game/assets/background1.png" id="2_lcvea"]
+[ext_resource type="Texture2D" uid="uid://cx2hyrcehloy8" path="res://game/assets/background4a.png" id="3_pxq4p"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_v8plm")
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 1150.0
+offset_bottom = 649.0
+texture = ExtResource("2_lcvea")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 1155.0
+offset_bottom = 645.0
+texture = ExtResource("3_pxq4p")
+expand_mode = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 445.0
+offset_top = 185.0
+offset_right = 742.0
+offset_bottom = 302.0
+theme_override_font_sizes/normal_font_size = 48
+text = "   The Cave"
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_left = 446.0
+offset_top = 397.0
+offset_right = 743.0
+offset_bottom = 500.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Play" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Play"
+
+[node name="Options" type="Button" parent="MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Quit" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+
+[node name="Click" type="AudioStreamPlayer" parent="."]
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 716.0
+offset_top = 682.0
+offset_right = 1492.0
+offset_bottom = 733.0
+theme_override_font_sizes/font_size = 32
+text = "The menu doesn't fit to the size of the screen yet..."
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]

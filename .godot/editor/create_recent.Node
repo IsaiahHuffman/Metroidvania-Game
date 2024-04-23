@@ -1,0 +1,13 @@
+RichTextLabel
+Node2D
+Timer
+CollisionShape2D
+Area2D
+AnimationPlayer
+Sprite2D
+ProgressBar
+Label
+CharacterBody2D
+TileMap
+AnimationTree
+Node

@@ -1,0 +1,114 @@
+extends CharacterBody2D
+
+var speed = 45 # this is not speed in this context but rather a mutliplier of sorts
+var player_chase = false
+var player = null
+const MAX_HEALTH = 5
+var health = MAX_HEALTH
+var player_attack_zone = false
+var can_take_damage =  true
+var is_alive = true
+var knockback_dir
+var dir = 1
+var knockback = false
+
+func _physics_process(delta):
+	$AnimationPlayer.play("active")
+	deal_with_damage()
+	update_health()
+	if is_alive:
+		if player_chase:
+			var direction = global_position.direction_to((player.global_position))
+			velocity = direction*speed
+			
+			if(player.global_position.x > global_position.x):
+				$Sprite2D.flip_h = true
+				#dir = -1
+			else:
+				$Sprite2D.flip_h = false
+				#dir = 1
+		else:
+			velocity = Vector2(0,0)
+		if knockback == true:
+			print("KNOCKBACK SUCCESSFULL")
+			knockback = false
+	move_and_slide()
+
+func take_damage(damage):
+	health-=damage
+	update_health()
+	deal_with_damage()
+
+# player is in the detection area of a drone
+func _on_detection_area_body_entered(body):
+	if body.has_method("bullet"):
+		print("i have been shot")
+	#print("i have been shot")
+	if body.name == "Player":
+		print("player found")
+		player = body
+		player_chase = true
+
+
+func _on_detection_area_body_exited(body):
+	#print("player lost")
+	if body.name == "Player": # if there are errors is prolly here
+		player = null
+		player_chase = false
+
+
+# update health and such accordingly
+
+# This is used to update the health bar of enemy
+func update_health():
+	var healthbar = $HealthBar
+	healthbar.value = health
+	if health >= MAX_HEALTH:
+		healthbar.visible = false
+	else:
+		healthbar.visible = true
+
+# death is among us
+func die():
+	is_alive = false
+	player_inattack_range = false
+	Global.droneCount += 1
+	#$AnimationPlayer.stop()
+	$AnimationPlayer.play("death")
+	await get_tree().create_timer(0.6).timeout # two second grace period before attack
+	self.queue_free()
+
+
+var player_inattack_range = false
+func _on_hitbox_body_entered(body):
+	if body.name == "Player":
+		print("the player is a little close")
+		player_inattack_range = true
+
+
+func _on_hitbox_body_exited(body):
+	if body.name == "Player":
+		print("the player can no longer hurt me")		
+		player_inattack_range = false
+
+
+func deal_with_damage():
+	if (Global.player_current_attack and player_inattack_range and is_alive  == true):
+		if can_take_damage == true:
+			health -= 1
+			$DamageCD.start()
+			can_take_damage = false
+			#$Sprite2D.modulate = Color.RED
+			#await get_tree().create_timer(0.1).timeout
+			#$Sprite2D.modulate = Color.WHITE
+			print("drone health = ", health)
+	if health <= 0:
+		player_chase = false
+		die()
+
+
+
+func _on_damage_cd_timeout():
+	$DamageCD.stop()
+	can_take_damage = true
+

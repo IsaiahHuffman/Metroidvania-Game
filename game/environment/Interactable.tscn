@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://cyppth5d3xoiq"]
+
+[ext_resource type="Script" path="res://game/environment/InteractArea.gd" id="1_1b83d"]
+[ext_resource type="Texture2D" uid="uid://bcf8lrhiy4khl" path="res://game/assets/InteractableSprite.png" id="2_nath8"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3smgn"]
+radius = 25.0
+
+[node name="InteractArea" type="Area2D"]
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+script = ExtResource("1_1b83d")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_nath8")
+vframes = 2
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(1, -1)
+shape = SubResource("CircleShape2D_3smgn")

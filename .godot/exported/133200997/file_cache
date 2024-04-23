@@ -1,0 +1,13 @@
+res://game/environment/BrokenPlatform.tscn::ef4245e90ac3c56a4f22f7964e1a1e07::1713508036::res://.godot/exported/133200997/export-84eab01493da1ce0328ecda224ffe6ad-BrokenPlatform.scn
+res://game/environment/Interactable.tscn::0afe758d72d0ef9205509a606fb7db04::1713540585::res://.godot/exported/133200997/export-441c0db295efd14896dd3cbfcb77e303-Interactable.scn
+res://game/environment/MovingPlatform.tscn::ce85711dcde198be011d08dc0b5bf1b4::1713417899::res://.godot/exported/133200997/export-4b7b16797caf80657c99281d4a20bc09-MovingPlatform.scn
+res://game/environment/OneWayPlatform.tscn::b5e5a9a66f737896f2e8b47338f147d3::1713385602::res://.godot/exported/133200997/export-238ed45ca818d9dd007e42edc0b7ef77-OneWayPlatform.scn
+res://game/environment/Spikes.tscn::24bbad2d7f1b1328938350b13fdfc17c::1713839874::res://.godot/exported/133200997/export-5ed428934a17e67e1bcec17c920c3197-Spikes.scn
+res://game/mobs/drone1.tscn::0975773afe1bfacab875e6d4eead1cac::1713507545::res://.godot/exported/133200997/export-ce7ddcc60eb07927893899b911f80cbc-drone1.scn
+res://game/mobs/drone.tscn::64becb10003dc12e6b11a6e0ae9f632c::1713839874::res://.godot/exported/133200997/export-0fa839026186c73d3f879b2fd1338cf9-drone.scn
+res://game/mobs/Enemy.tscn::9a2b0532d8008d120f65e4adc486f698::1713839872::res://.godot/exported/133200997/export-d8bba6323d8618c815570466abce47ca-Enemy.scn
+res://game/Player/Bullet.tscn::fa49540df60690cb6043548b3c069222::1713839872::res://.godot/exported/133200997/export-c24f72cda0aaae267c0512d31f01400f-Bullet.scn
+res://game/Player/Player.tscn::879e491f6a9b5076a53ea3cff291f93c::1713839872::res://.godot/exported/133200997/export-5c24436130884fa8a70141639b93603b-Player.scn
+res://game/Map.tscn::f9a2423f1dd3b4db7fb6cbfe47f26757::1713839874::res://.godot/exported/133200997/export-c43439501a553cda695d4c9e43867f8f-Map.scn
+res://game/Menu.tscn::ccff7c683c1c9fdb78c4655e4bccac94::1713839874::res://.godot/exported/133200997/export-29f018264d66265ffb59af9a21485b7c-Menu.scn
+res://game/mobs/SlimeBoss.tscn::c13117a2a6c798e5372a2084dd4a2663::1713839874::res://.godot/exported/133200997/export-34001e2530889d700982f7ff6c1dd193-SlimeBoss.scn

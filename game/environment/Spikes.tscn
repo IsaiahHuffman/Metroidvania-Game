@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://dyr06wqqs0gcm"]
+
+[ext_resource type="Texture2D" uid="uid://casqdhutsveer" path="res://game/assets/Free Pixel Art Forest/Spikes.png" id="1_5wbqa"]
+[ext_resource type="Script" path="res://game/environment/Spikes.gd" id="1_743ua"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jekgm"]
+size = Vector2(37, 17)
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_743ua")
+
+[node name="Spikes" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Spikes"]
+position = Vector2(0.5, 2.5)
+shape = SubResource("RectangleShape2D_jekgm")
+
+[node name="Sprite2D" type="Sprite2D" parent="Spikes"]
+position = Vector2(-1.90735e-06, 0)
+scale = Vector2(0.120091, 0.115497)
+texture = ExtResource("1_5wbqa")
+
+[node name="Player Hit" type="Area2D" parent="Spikes"]
+position = Vector2(3, 16)
+
+[node name="Collision" type="CollisionPolygon2D" parent="Spikes/Player Hit"]
+position = Vector2(-2.99265, -14.6677)
+scale = Vector2(0.123162, 0.126366)
+polygon = PackedVector2Array(-166, 73, -103, -93, -55, -15, 1, -99, 50, -16, 96, -106, 174, 77, 45.1656, 75.4843)
+
+[connection signal="body_entered" from="Spikes/Player Hit" to="." method="_on_player_hit_body_entered"]
