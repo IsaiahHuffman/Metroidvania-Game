@@ -20485,7 +20485,7 @@ offset_right = -971.0
 offset_bottom = -791.0
 scale = Vector2(0.1, 0.1)
 theme_override_font_sizes/font_size = 48
-text = "use space to dash"
+text = "use shift or q to dash"
 metadata/_edit_use_anchors_ = true
 
 [node name="Label6" type="Label" parent="Labels"]
@@ -20496,7 +20496,7 @@ offset_right = -423.0
 offset_bottom = -834.0
 scale = Vector2(0.1, 0.1)
 theme_override_font_sizes/font_size = 48
-text = "X or left click to use magic"
+text = "X or right click to use magic"
 metadata/_edit_use_anchors_ = true
 
 [node name="Label9" type="Label" parent="Labels"]
@@ -20506,7 +20506,7 @@ offset_right = 97.9998
 offset_bottom = -689.0
 scale = Vector2(0.1, 0.1)
 theme_override_font_sizes/font_size = 48
-text = "X or left click to use magic"
+text = "X or right click to use magic"
 metadata/_edit_use_anchors_ = true
 
 [node name="Label10" type="Label" parent="Labels"]

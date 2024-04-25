@@ -13,60 +13,70 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_v8plm")
 
-[node name="TextureRect2" type="TextureRect" parent="."]
-layout_mode = 0
-offset_right = 1150.0
-offset_bottom = 649.0
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
+
+[node name="TextureRect2" type="TextureRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("2_lcvea")
 
-[node name="TextureRect" type="TextureRect" parent="."]
-layout_mode = 0
-offset_right = 1155.0
-offset_bottom = 645.0
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("3_pxq4p")
 expand_mode = 1
 
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
-layout_mode = 0
-offset_left = 445.0
-offset_top = 185.0
-offset_right = 742.0
-offset_bottom = 302.0
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer"]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.41
+anchor_right = 0.5
+anchor_bottom = 0.41
+offset_left = -144.0
+offset_top = -52.68
+offset_right = 153.0
+offset_bottom = 64.32
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_font_sizes/normal_font_size = 48
 text = "   The Cave"
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
-layout_mode = 0
-offset_left = 446.0
-offset_top = 397.0
-offset_right = 743.0
-offset_bottom = 500.0
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.684
+anchor_right = 0.5
+anchor_bottom = 0.684
+offset_left = -144.0
+offset_top = -51.232
+offset_right = 153.0
+offset_bottom = 51.768
+metadata/_edit_use_anchors_ = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer"]
 layout_mode = 2
 
-[node name="Play" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="Play" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Play"
 
-[node name="Options" type="Button" parent="MarginContainer/VBoxContainer"]
-visible = false
+[node name="Options" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer"]
 layout_mode = 2
+text = "Controls"
 
-[node name="Quit" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="Quit" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Quit"
 
-[node name="Click" type="AudioStreamPlayer" parent="."]
+[node name="Click" type="AudioStreamPlayer" parent="CanvasLayer"]
 
-[node name="Label" type="Label" parent="."]
-layout_mode = 0
-offset_left = 716.0
-offset_top = 682.0
-offset_right = 1492.0
-offset_bottom = 733.0
-theme_override_font_sizes/font_size = 32
-text = "The menu doesn't fit to the size of the screen yet..."
-
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]

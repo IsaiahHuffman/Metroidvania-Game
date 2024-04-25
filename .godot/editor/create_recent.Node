@@ -1,3 +1,7 @@
+TextureRect
+CanvasLayer
+Label
+Button
 RichTextLabel
 Node2D
 Timer
@@ -6,8 +10,5 @@ Area2D
 AnimationPlayer
 Sprite2D
 ProgressBar
-Label
 CharacterBody2D
 TileMap
-AnimationTree
-Node

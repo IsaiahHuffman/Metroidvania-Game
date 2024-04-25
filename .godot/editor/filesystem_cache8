@@ -1,17 +1,19 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1713543233
-export_presets.cfg::TextFile::-1::1713199232::0::1::::<><>::
-global.gd::GDScript::-1::1713235682::0::1::::<>Node<>::
+::res://::1713986933
+export_presets.cfg::TextFile::-1::1713839917::0::1::::<><>::
+global.gd::GDScript::-1::1713805233::0::1::::<>Node<>::
 Main.gd::GDScript::-1::1713199231::0::1::::<>Node2D<>::
 Main.tscn::PackedScene::6125407291812598409::1713294349::0::1::::<><>::res://Main.gd
 README.md::TextFile::-1::1713199231::0::1::::<><>::
+ControlsScreen.tscn::PackedScene::1537200770472023813::1713986933::0::1::::<><>::res://ControlsScreen.gd
+ControlsScreen.gd::GDScript::-1::1713986885::0::1::::<>Control<>::
 World.tscn::PackedScene::6650979611428661706::1713466790::0::1::::<><>::res://Main.gd<>uid://b3sdvlj42j812::::res://game/assets/Free Pixel Art Forest/Preview/Background.png<>uid://cton2o3xsuut::::res://game/Player/Player.tscn<>uid://3aku4212wkyd::::res://game/assets/Legacy-Fantasy - High Forest 2.3/Assets/Tiles.png<>uid://bx6p86d1bvy3p::::res://game/mobs/Enemy.tscn<>uid://dw5pm765s3tq8::::res://game/environment/MovingPlatform.tscn<>uid://ckba06pfxm5ld::::res://game/environment/BrokenPlatform.tscn<>uid://dyr06wqqs0gcm::::res://game/environment/Spikes.tscn
-::res://game/::1713543912
-Map.gd::GDScript::-1::1713537681::0::1::::<>Node2D<>::
-Map.tscn::PackedScene::7821592144794548010::1713543911::0::1::::<><>::res://game/Map.gd<>uid://b67qarh8k8un3::::res://game/assets/mainlev_build.png<>uid://bjbs5bwr8g5em::::res://game/assets/background1.png<>uid://dtsmevawophi1::::res://game/assets/background3.png<>uid://dctm8gynjkojn::::res://game/assets/background2.png<>uid://b0p2v21gvsd8b::::res://game/assets/goop.png<>uid://cx2hyrcehloy8::::res://game/assets/background4a.png<>uid://c80shdlwqvuxa::::res://game/assets/background4b.png<>uid://cyppth5d3xoiq::::res://game/environment/Interactable.tscn<>uid://b78ve2udftgcb::::res://game/assets/props2.png<>uid://6vrkohd477em::::res://game/assets/8Bit_cave___Mar_28_2024_820_PM.wav<>uid://rvu71wxtf4el::::res://game/assets/props1.png<>uid://bx6p86d1bvy3p::::res://game/mobs/Enemy.tscn<>uid://cton2o3xsuut::::res://game/Player/Player.tscn<>uid://dw5pm765s3tq8::::res://game/environment/MovingPlatform.tscn<>uid://ckba06pfxm5ld::::res://game/environment/BrokenPlatform.tscn<>uid://crgwu4uxlfheq::::res://game/assets/particles.png<>uid://cioxldlxo01pb::::res://game/environment/OneWayPlatform.tscn<>uid://dyr06wqqs0gcm::::res://game/environment/Spikes.tscn<>uid://csphg42bise02::::res://game/mobs/drone.tscn
-Menu.gd::GDScript::-1::1712938672::0::1::::<>Control<>::
-Menu.tscn::PackedScene::8071884553507769771::1713507643::0::1::::<><>::res://game/Menu.gd<>uid://bjbs5bwr8g5em::::res://game/assets/background1.png<>uid://cx2hyrcehloy8::::res://game/assets/background4a.png
-::res://game/assets/::1713545138
+::res://game/::1713986933
+Map.gd::GDScript::-1::1713839115::0::1::::<>Node2D<>::
+Map.tscn::PackedScene::7821592144794548010::1713986933::0::1::::<><>::res://game/Map.gd<>uid://b67qarh8k8un3::::res://game/assets/mainlev_build.png<>uid://bjbs5bwr8g5em::::res://game/assets/background1.png<>uid://dtsmevawophi1::::res://game/assets/background3.png<>uid://dctm8gynjkojn::::res://game/assets/background2.png<>uid://b0p2v21gvsd8b::::res://game/assets/goop.png<>uid://cx2hyrcehloy8::::res://game/assets/background4a.png<>uid://c80shdlwqvuxa::::res://game/assets/background4b.png<>uid://cyppth5d3xoiq::::res://game/environment/Interactable.tscn<>uid://b78ve2udftgcb::::res://game/assets/props2.png<>uid://6vrkohd477em::::res://game/assets/8Bit_cave___Mar_28_2024_820_PM.wav<>uid://rvu71wxtf4el::::res://game/assets/props1.png<>uid://bx6p86d1bvy3p::::res://game/mobs/Enemy.tscn<>uid://cton2o3xsuut::::res://game/Player/Player.tscn<>uid://dw5pm765s3tq8::::res://game/environment/MovingPlatform.tscn<>res://game/environment/InteractArea.gd<>uid://ckba06pfxm5ld::::res://game/environment/BrokenPlatform.tscn<>uid://crgwu4uxlfheq::::res://game/assets/particles.png<>uid://cioxldlxo01pb::::res://game/environment/OneWayPlatform.tscn<>uid://dyr06wqqs0gcm::::res://game/environment/Spikes.tscn<>uid://dlaintcs5s47h::::res://game/mobs/SlimeBoss.tscn<>uid://csphg42bise02::::res://game/mobs/drone.tscn
+Menu.gd::GDScript::-1::1713986919::0::1::::<>Control<>::
+Menu.tscn::PackedScene::8071884553507769771::1713986933::0::1::::<><>::res://game/Menu.gd<>uid://bjbs5bwr8g5em::::res://game/assets/background1.png<>uid://cx2hyrcehloy8::::res://game/assets/background4a.png
+::res://game/assets/::1713987552
 8Bit_cave___Mar_28_2024_820_PM.wav::AudioStreamWAV::2220256878747225860::1712938672::1713421989::1::::<><>::
 background1.png::CompressedTexture2D::3021331221202214764::1712938672::1713421974::1::::<><>::
 background2.png::CompressedTexture2D::7339650803613066743::1712938672::1713421974::1::::<><>::
@@ -19,12 +21,14 @@ background3.png::CompressedTexture2D::8530745730873050590::1712938672::171342197
 background4a.png::CompressedTexture2D::6443391744601750353::1712938672::1713421974::1::::<><>::
 background4b.png::CompressedTexture2D::7141788233304604806::1712938672::1713421974::1::::<><>::
 BreakingPlatform.png::CompressedTexture2D::3003687770376718077::1713489790::1713489908::1::::<><>::
+ColoredKeys.png::CompressedTexture2D::6674601639848973638::1713987552::1713987560::1::::<><>::
 goop.png::CompressedTexture2D::4173785760028261007::1712938673::1713422158::1::::<><>::
 icon.svg::CompressedTexture2D::2592789844789026246::1713199232::1713199270::1::::<><>::
 InteractableSprite.png::CompressedTexture2D::2539144468341002313::1713536847::1713536882::1::::<><>::
 mainlev_build.png::CompressedTexture2D::4629307301710917550::1712938673::1713422158::1::::<><>::
 movingplatform.png::CompressedTexture2D::6069503814478661368::1713391649::1713391694::1::::<><>::
 particles.png::CompressedTexture2D::5979811020609233132::1712938673::1713422151::1::::<><>::
+pixelkeyboard.png::CompressedTexture2D::8629218801889553469::1713987103::1713987105::1::::<><>::
 playerSpriteNotes.txt::TextFile::-1::1712938673::0::1::::<><>::
 player_all_sheet.png::CompressedTexture2D::8356692820272689251::1712938673::1713422151::1::::<><>::
 props1.png::CompressedTexture2D::1237835160605527999::1712938673::1713422151::1::::<><>::
@@ -125,7 +129,7 @@ Golden-Tree.png::CompressedTexture2D::384243219302428000::1713199238::1713199271
 Green-Tree.png::CompressedTexture2D::4834189285487809539::1713199238::1713199271::1::::<><>::
 Red-Tree.png::CompressedTexture2D::6790070087898643806::1713199238::1713199271::1::::<><>::
 Yellow-Tree.png::CompressedTexture2D::782064597155958128::1713199238::1713199271::1::::<><>::
-::res://game/environment/::1713543895
+::res://game/environment/::1713986933
 BrokenPlatform.gd::GDScript::-1::1713490536::0::1::::<>StaticBody2D<>::
 BrokenPlatform.tscn::PackedScene::5476840478022548385::1713508036::0::1::::<><>::res://game/environment/BrokenPlatform.gd<>uid://bi2akflo1gqwb::::res://game/assets/BreakingPlatform.png
 Interactable.tscn::PackedScene::6489284380167793584::1713540585::0::1::::<><>::res://game/environment/InteractArea.gd<>uid://bcf8lrhiy4khl::::res://game/assets/InteractableSprite.png
@@ -134,16 +138,18 @@ MovingPlatform.gd::GDScript::-1::1713389941::0::1::::<>AnimatableBody2D<>::
 MovingPlatform.tscn::PackedScene::8766281858180545933::1713417899::0::1::::<><>::res://game/environment/MovingPlatform.gd<>uid://csqd3ui8h3sq7::::res://game/assets/movingplatform.png
 OneWayPlatform.tscn::PackedScene::5364669715241516207::1713385602::0::1::::<><>::
 Spikes.gd::GDScript::-1::1713539364::0::1::::<>Node2D<>::
-Spikes.tscn::PackedScene::8880463185623894224::1713543895::0::1::::<><>::uid://casqdhutsveer::::res://game/assets/Free Pixel Art Forest/Spikes.png<>res://game/environment/Spikes.gd
-::res://game/mobs/::1713543895
+Spikes.tscn::PackedScene::8880463185623894224::1713986933::0::1::::<><>::uid://casqdhutsveer::::res://game/assets/Free Pixel Art Forest/Spikes.png<>res://game/environment/Spikes.gd
+::res://game/mobs/::1713986933
 Drone1.gd::GDScript::-1::1713501836::0::1::::<>CharacterBody2D<>::
 drone1.tscn::PackedScene::4650019908854046163::1713507545::0::1::::<><>::res://game/mobs/Drone1.gd<>uid://dhtp1l8v63bkh::::res://game/assets/SalvageDrone.png
-Drone.gd::GDScript::-1::1713540583::0::1::::<>CharacterBody2D<>::
-drone.tscn::PackedScene::6067643517838188781::1713543895::0::1::::<><>::res://game/mobs/Drone.gd<>uid://dhtp1l8v63bkh::::res://game/assets/SalvageDrone.png
-Enemy.gd::GDScript::-1::1713540583::0::1::::<>CharacterBody2D<>::
-Enemy.tscn::PackedScene::4065731117875836639::1713543892::0::1::::<><>::res://game/mobs/Enemy.gd<>uid://b14242a5ggvnw::::res://game/assets/Legacy-Fantasy - High Forest 2.3/Mob/Snail/all.png
-::res://game/Player/::1713543892
-Bullet.gd::GDScript::-1::1713538937::0::1::::<>CharacterBody2D<>::
-Bullet.tscn::PackedScene::1775941294085248756::1713543892::0::1::::<><>::res://game/Player/Bullet.gd<>uid://crgwu4uxlfheq::::res://game/assets/particles.png
-Player.gd::GDScript::-1::1713543126::0::1::::<>CharacterBody2D<>::
-Player.tscn::PackedScene::180475558884069259::1713543892::0::1::::<><>::res://game/Player/Player.gd<>uid://drcbrlmbhg6ix::::res://game/assets/player_all_sheet.png<>uid://ggx6d8p8ywd8::::res://game/assets/slash.png
+Drone.gd::GDScript::-1::1713985484::0::1::::<>CharacterBody2D<>::
+drone.tscn::PackedScene::6067643517838188781::1713986933::0::1::::<><>::res://game/mobs/Drone.gd<>uid://dhtp1l8v63bkh::::res://game/assets/SalvageDrone.png
+Enemy.gd::GDScript::-1::1713839228::0::1::::<>CharacterBody2D<>::
+Enemy.tscn::PackedScene::4065731117875836639::1713986931::0::1::::<><>::res://game/mobs/Enemy.gd<>uid://b14242a5ggvnw::::res://game/assets/Legacy-Fantasy - High Forest 2.3/Mob/Snail/all.png
+SlimeBoss.gd::GDScript::-1::1713806274::0::1::::<>CharacterBody2D<>::
+SlimeBoss.tscn::PackedScene::7931849284252486123::1713986933::0::1::::<><>::res://game/mobs/SlimeBoss.gd<>uid://dgael4ic3hpde::::res://game/assets/slime.png
+::res://game/Player/::1713986931
+Bullet.gd::GDScript::-1::1713985484::0::1::::<>CharacterBody2D<>::
+Bullet.tscn::PackedScene::1775941294085248756::1713986931::0::1::::<><>::res://game/Player/Bullet.gd<>uid://crgwu4uxlfheq::::res://game/assets/particles.png
+Player.gd::GDScript::-1::1713985484::0::1::::<>CharacterBody2D<>::
+Player.tscn::PackedScene::180475558884069259::1713986931::0::1::::<><>::res://game/Player/Player.gd<>uid://drcbrlmbhg6ix::::res://game/assets/player_all_sheet.png<>uid://ggx6d8p8ywd8::::res://game/assets/slash.png

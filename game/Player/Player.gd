@@ -299,7 +299,7 @@ func checkDeath():
 		#$DeathSound.play()
 		# eventually make this a quit/respawn screen
 		await get_tree().create_timer(2.0).timeout
-		get_tree().change_scene_to_file("res://Game/Menu.tscn")
+		get_tree().change_scene_to_file("res://game/Menu.tscn") # current quit is just to go back to main menu
 		# death screen
 
 func take_damage(damage):
